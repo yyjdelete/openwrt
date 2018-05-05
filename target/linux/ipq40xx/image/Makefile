@@ -150,6 +150,17 @@ define Device/netgear_ex6150v2
 endef
 TARGET_DEVICES += netgear_ex6150v2
 
+define Device/netgear_orbipro
+	$(call Device/FitImage)
+	$(call Device/UbiFit)
+	DEVICE_DTS := qcom-ipq4019-orbi-pro
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	DEVICE_TITLE := Netgear Orbi Pro
+	DEVICE_PACKAGES := ath10k-firmware-qca9984
+endef
+TARGET_DEVICES += netgear_orbipro
+
 define Device/openmesh_a42
 	$(call Device/FitImageLzma)
 	DEVICE_DTS := qcom-ipq4018-a42
