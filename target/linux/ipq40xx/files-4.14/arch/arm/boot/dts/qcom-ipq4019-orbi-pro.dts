@@ -23,7 +23,7 @@
 
 / {
 	model = "Netgear Orbi Pro";
-	compatible = "Netgear,orbipro", "qcom,ipq4019";
+	compatible = "netgear,orbipro", "qcom,ipq4019";
 
 	soc {
 		mdio@90000 {
