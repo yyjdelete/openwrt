@@ -215,6 +215,13 @@
 	};
 };
 
+&i2c_0 {
+	pinctrl-0 = <&i2c_0_pins>;
+	pinctrl-names = "default";
+
+	status = "okay";
+};
+
 &cryptobam {
 	status = "okay";
 };
