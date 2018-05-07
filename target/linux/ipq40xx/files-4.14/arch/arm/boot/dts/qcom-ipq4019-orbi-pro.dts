@@ -267,3 +267,25 @@
 &usb2_hs_phy {
 	status = "okay";
 };
+
+&pcie0 {
+	status = "okay";
+	perst-gpio = <&tlmm 38 GPIO_ACTIVE_HIGH>;
+	wake-gpio = <&tlmm 40 GPIO_ACTIVE_HIGH>;
+	clkreq-gpio = <&tlmm 39 GPIO_ACTIVE_HIGH>;
+
+	pcie@0 {
+		reg = <0 0 0 0 0>;
+		#interrupt-cells = <1>;
+		#size-cells = <2>;
+		#address-cells = <3>;
+		device_type = "pci";
+
+		ath10k@0,0 {
+			compatible = "qcom,ath10k";
+			status = "okay";
+			reg = <0 0 0 0 0>;
+			device_type = "pci";
+		};
+	};
+};
