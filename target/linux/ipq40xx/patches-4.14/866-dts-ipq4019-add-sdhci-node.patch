@@ -1,31 +1,48 @@
-From dde0fb0f2ebe1699ad3852348a8189f541c1ac8a Mon Sep 17 00:00:00 2001
+From 7089bed6c2c3baa5ba567ddb02d5df451893cf89 Mon Sep 17 00:00:00 2001
 From: Robert Marko <robimarko@gmail.com>
-Date: Tue, 8 May 2018 13:28:54 +0200
+Date: Tue, 8 May 2018 23:38:23 +0200
 Subject: [PATCH] ipq40xx: Add SDHCI node to qcom-ipq4019.dtsi
 
 Add SDHCI node that is needed to support SDHCI in IPQ4019 as the device supports is.
 ---
- qcom-ipq4019.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/arm/boot/dts/qcom-ipq4019.dtsi | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
 diff --git a/arch/arm/boot/dts/qcom-ipq4019.dtsi b/arch/arm/boot/dts/qcom-ipq4019.dtsi
-index 5c1b097..46fc9a6 100644
+index 5c1b097..b90c472 100644
 --- a/arch/arm/boot/dts/qcom-ipq4019.dtsi
 +++ b/arch/arm/boot/dts/qcom-ipq4019.dtsi
-@@ -667,6 +667,16 @@
- 			};
+@@ -439,6 +439,33 @@
+ 			status = "disabled";
  		};
  
-+		sdhci: sdhci@7824000 {
-+			compatible = "qcom,sdhci-msm-v4";
-+			reg = <0x7824900 0x11c>, <0x7824000 0x800>;
-+			interrupts = <0 123 0>, <0 138 0>;
-+			bus-width = <8>;
-+			clocks = <&gcc GCC_SDCC1_APPS_CLK>, <&gcc GCC_SDCC1_AHB_CLK>;
-+			clock-names = "core", "iface";
++		vccq_sd0: regulator@1948000 {
++			compatible = "qcom,regulator-ipq40xx";
++			regulator-name = "SD0 VccQ";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <3000000>;
++			states = <3000000 0x3
++				  1800000 0x1>;
++			reg = <0x01948000 0x4>;
++			mask = <0x3>;
 +			status = "disabled";
 +		};
 +
- 		usb3_ss_phy: ssphy@9a000 {
- 			compatible = "qca,uni-ssphy";
- 			reg = <0x9a000 0x800>;
++		sdhci: sdhci@7824000 {
++			compatible = "qcom,sdhci-msm";
++			reg = <0x7824900 0x11c>, <0x7824000 0x800>;
++			reg-names = "hc_mem", "core_mem";
++			interrupts = <0 123 0>, <0 138 0>;
++			interrupt-names = "hc_irq", "pwr_irq";
++			qcom,bus-width = <8>;
++			qcom,max_clk = <192000000>;
++			clocks = <&gcc GCC_SDCC1_APPS_CLK>,
++				 <&gcc GCC_SDCC1_AHB_CLK>;
++			clock-names = "core_clk", "iface_clk";
++			qcom,large-address-bus;
++			status = "disabled";
++		};
++
+ 		qpic_bam: dma@7984000 {
+ 			compatible = "qcom,bam-v1.7.0";
+ 			reg = <0x7984000 0x1a000>;
