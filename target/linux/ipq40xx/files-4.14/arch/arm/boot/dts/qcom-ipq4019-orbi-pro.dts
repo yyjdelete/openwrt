@@ -174,12 +174,12 @@
 		};
 		sdclk {
 			pins = "gpio27";
-			function = "sdio_clk";
+			function = "sdio";
 			drive-strength = <16>;
 		};
 		sdcmd {
 			pins = "gpio28";
-			function = "sdio_cmd";
+			function = "sdio";
 			drive-strength = <10>;
 		};
 		sd4 {
