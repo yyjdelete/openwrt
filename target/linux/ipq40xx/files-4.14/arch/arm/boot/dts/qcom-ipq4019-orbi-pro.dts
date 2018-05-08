@@ -164,22 +164,22 @@
 	sd_0_pins: sd_0_pinmux {
 		sd0 {
 			pins = "gpio23";
-			function = "sdio0";
+			function = "sdio";
 			drive-strength = <10>;
 		};
 		sd1 {
 			pins = "gpio24";
-			function = "sdio1";
+			function = "sdio";
 			drive-strength = <10>;
 		};
 		sd2 {
 			pins = "gpio25";
-			function = "sdio2";
+			function = "sdio";
 			drive-strength = <10>;
 		};
 		sd3 {
 			pins = "gpio26";
-			function = "sdio3";
+			function = "sdio";
 			drive-strength = <10>;
 		};
 		sdclk {
@@ -194,22 +194,22 @@
 		};
 		sd4 {
 			pins = "gpio29";
-			function = "sdio4";
+			function = "sdio";
 			drive-strength = <10>;
 		};
 		sd5 {
 			pins = "gpio30";
-			function = "sdio5";
+			function = "sdio";
 			drive-strength = <10>;
 		};
 		sd6 {
 			pins = "gpio31";
-			function = "sdio6";
+			function = "sdio";
 			drive-strength = <10>;
 		};
 		sd7 {
 			pins = "gpio32";
-			function = "sdio7";
+			function = "sdio";
 			drive-strength = <10>;
 			bias-disable;
 		};
