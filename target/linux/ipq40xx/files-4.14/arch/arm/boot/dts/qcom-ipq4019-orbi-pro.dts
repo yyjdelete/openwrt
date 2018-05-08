@@ -108,15 +108,16 @@
 			};
 		};
 
-		vccq_sd0: regulator@0 {
-			compatible = "qcom,regulator-ipq4019";
-			regulator-name = "SD0 VccQ";
-			regulator-min-microvolt = <1800000>;
-			regulator-max-microvolt = <3000000>;
-			states = <3000000 0x3
-				1800000 0x1>;
-			reg = <0x01948000 0x4>;
-			mask = <0x3>;
+		vccq_sd0: regulator@1948000 {
+				compatible = "qcom,regulator-ipq4019";
+				regulator-name = "SD0 VccQ";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <3000000>;
+				states = <3000000 0x3
+					  1800000 0x1>;
+				reg = <0x01948000 0x4>;
+				mask = <0x3>;
+				status = "okay";
 		};
 	};
 };
@@ -241,12 +242,13 @@
 
 &sdhci {
 	status = "okay";
-	pinctrl-0 = <&sd_0_pins>;
-	pinctrl-names = "default";
+	qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
+	qcom,clk-rates = <400000 25000000
+			  50000000 100000000
+			  192000000 384000000>;
 	vqmmc-supply = <&vccq_sd0>;
 	cd-gpios = <&tlmm 22 0x1>;
 	sd-ldo-gpios = <&tlmm 33 0x1>;
-	non-removable;
 };
 
 &i2c_0 {
