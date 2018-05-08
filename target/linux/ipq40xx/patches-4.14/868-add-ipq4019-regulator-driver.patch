@@ -1,26 +1,26 @@
-From 90732340db3ddc45131c4eda55a183361478522e Mon Sep 17 00:00:00 2001
+From b1299d0706331a2b542d82937b272e78f0adf2c9 Mon Sep 17 00:00:00 2001
 From: Robert Marko <robimarko@gmail.com>
-Date: Tue, 8 May 2018 22:14:17 +0200
+Date: Tue, 8 May 2018 23:00:19 +0200
 Subject: [PATCH] ipq-4019: Add regulator driver
 
 Add driver for the ipq-4019 regulators
 ---
  drivers/regulator/Kconfig             |   7 +
  drivers/regulator/Makefile            |   1 +
- drivers/regulator/ipq4019-regulator.c | 276 ++++++++++++++++++++++++++++++++++
- 3 files changed, 284 insertions(+)
+ drivers/regulator/ipq4019-regulator.c | 280 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 288 insertions(+)
  create mode 100644 drivers/regulator/ipq4019-regulator.c
 
 diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 0fd619560..2476a193b 100644
+index 0fd619560..84c3cacbc 100644
 --- a/drivers/regulator/Kconfig
 +++ b/drivers/regulator/Kconfig
 @@ -958,5 +958,12 @@ config REGULATOR_WM8994
  	  This driver provides support for the voltage regulators on the
  	  WM8994 CODEC.
  
-+config REGULATOR_IPQ4019
-+	tristate "IPQ4019 regulator support"
++config REGULATOR_IPQ40XX
++	tristate "IPQ40xx regulator support"
 +	depends on ARCH_QCOM
 +	help
 +	  This driver provides support for the voltage regulators of the
@@ -29,23 +29,23 @@ index 0fd619560..2476a193b 100644
  endif
  
 diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 80ffc57a9..5c1b9c7b8 100644
+index 80ffc57a9..add8ec1c5 100644
 --- a/drivers/regulator/Makefile
 +++ b/drivers/regulator/Makefile
 @@ -122,6 +122,7 @@ obj-$(CONFIG_REGULATOR_WM831X) += wm831x-ldo.o
  obj-$(CONFIG_REGULATOR_WM8350) += wm8350-regulator.o
  obj-$(CONFIG_REGULATOR_WM8400) += wm8400-regulator.o
  obj-$(CONFIG_REGULATOR_WM8994) += wm8994-regulator.o
-+obj-$(CONFIG_REGULATOR_IPQ4019) += ipq4019-regulator.o
++obj-$(CONFIG_REGULATOR_IPQ40XX) += ipq4019-regulator.o
  
  
  ccflags-$(CONFIG_REGULATOR_DEBUG) += -DDEBUG
 diff --git a/drivers/regulator/ipq4019-regulator.c b/drivers/regulator/ipq4019-regulator.c
 new file mode 100644
-index 000000000..109d88efe
+index 000000000..25f8946b7
 --- /dev/null
 +++ b/drivers/regulator/ipq4019-regulator.c
-@@ -0,0 +1,276 @@
+@@ -0,0 +1,280 @@
 +
 +/* Copyright (c) 2015, The Linux Foundation. All rights reserved.
 + *
@@ -74,14 +74,14 @@ index 000000000..109d88efe
 +#include <linux/of.h>
 +#include <linux/io.h>
 +
-+struct ipq4019_regulator_state {
++struct ipq40xx_regulator_state {
 +	int range;
 +	int value;
 +};
 +
-+struct ipq4019_regulator_config {
++struct ipq40xx_regulator_config {
 +	const char *supply_name;
-+	struct ipq4019_regulator_state *states;
++	struct ipq40xx_regulator_state *states;
 +	int nr_states;
 +	int mask;
 +	enum regulator_type type;
@@ -89,32 +89,31 @@ index 000000000..109d88efe
 +	void __iomem *base;
 +};
 +
-+struct ipq4019_regulator_data {
++struct ipq40xx_regulator_data {
 +	struct regulator_desc desc;
 +	struct regulator_dev *dev;
-+	struct ipq4019_regulator_config *config;
++	struct ipq40xx_regulator_config *config;
 +	int range;
 +};
 +
-+static int ipq4019_regulator_get_voltage(struct regulator_dev *dev)
++static int ipq40xx_regulator_get_voltage(struct regulator_dev *dev)
 +{
-+	struct ipq4019_regulator_data *data = rdev_get_drvdata(dev);
-+	struct ipq4019_regulator_config *cfg = data->config;
++	struct ipq40xx_regulator_data *data = rdev_get_drvdata(dev);
++	struct ipq40xx_regulator_config *cfg = data->config;
 +	int ptr;
 +
 +	for (ptr = 0; ptr < cfg->nr_states; ptr++)
 +		if (cfg->states[ptr].range == data->range)
 +			return cfg->states[ptr].range;
-+
 +	return -EINVAL;
 +}
 +
-+static int ipq4019_regulator_set_voltage(struct regulator_dev *dev,
++static int ipq40xx_regulator_set_voltage(struct regulator_dev *dev,
 +					int min_uV, int max_uV,
 +					unsigned *selector)
 +{
-+	struct ipq4019_regulator_data *data = rdev_get_drvdata(dev);
-+	struct ipq4019_regulator_config *cfg = data->config;
++	struct ipq40xx_regulator_data *data = rdev_get_drvdata(dev);
++	struct ipq40xx_regulator_config *cfg = data->config;
 +
 +	int ptr, best_val = INT_MAX, val;
 +
@@ -139,11 +138,11 @@ index 000000000..109d88efe
 +	return 0;
 +}
 +
-+static int ipq4019_regulator_list_voltage(struct regulator_dev *dev,
++static int ipq40xx_regulator_list_voltage(struct regulator_dev *dev,
 +				      unsigned selector)
 +{
-+	struct ipq4019_regulator_data *data = rdev_get_drvdata(dev);
-+	struct ipq4019_regulator_config *cfg = data->config;
++	struct ipq40xx_regulator_data *data = rdev_get_drvdata(dev);
++	struct ipq40xx_regulator_config *cfg = data->config;
 +
 +	if (selector >= cfg->nr_states)
 +		return -EINVAL;
@@ -151,26 +150,26 @@ index 000000000..109d88efe
 +	return cfg->states[selector].range;
 +}
 +
-+static struct regulator_ops ipq4019_regulator_voltage_ops = {
-+	.get_voltage = ipq4019_regulator_get_voltage,
-+	.set_voltage = ipq4019_regulator_set_voltage,
-+	.list_voltage = ipq4019_regulator_list_voltage,
++static struct regulator_ops ipq40xx_regulator_voltage_ops = {
++	.get_voltage = ipq40xx_regulator_get_voltage,
++	.set_voltage = ipq40xx_regulator_set_voltage,
++	.list_voltage = ipq40xx_regulator_list_voltage,
 +};
 +
-+static struct ipq4019_regulator_config *
-+of_get_ipq4019_regulator_data(struct device *dev, struct device_node *np, const struct regulator_desc *desc)
++static struct ipq40xx_regulator_config *
++of_get_ipq40xx_regulator_data(struct device *dev, struct device_node *np)
 +{
-+	struct ipq4019_regulator_config *config;
++	struct ipq40xx_regulator_config *config;
 +	struct property *prop;
 +	int proplen, i;
 +
 +	config = devm_kzalloc(dev,
-+			sizeof(struct ipq4019_regulator_config),
++			sizeof(struct ipq40xx_regulator_config),
 +			GFP_KERNEL);
 +	if (!config)
 +		return ERR_PTR(-ENOMEM);
 +
-+	config->init_data = of_get_regulator_init_data(dev, np, desc);
++	config->init_data = of_get_regulator_init_data(dev, np, NULL);
 +	if (!config->init_data)
 +		return ERR_PTR(-EINVAL);
 +
@@ -187,7 +186,7 @@ index 000000000..109d88efe
 +	proplen = prop->length / sizeof(int);
 +
 +	config->states = devm_kzalloc(dev,
-+				sizeof(struct ipq4019_regulator_state)
++				sizeof(struct ipq40xx_regulator_state)
 +				* (proplen / 2),
 +				GFP_KERNEL);
 +	if (!config->states)
@@ -213,27 +212,27 @@ index 000000000..109d88efe
 +	return config;
 +}
 +
-+static int ipq4019_regulator_probe(struct platform_device *pdev)
++static int ipq40xx_regulator_probe(struct platform_device *pdev)
 +{
-+	struct ipq4019_regulator_config *config = dev_get_platdata(&pdev->dev);
++	struct ipq40xx_regulator_config *config = dev_get_platdata(&pdev->dev);
 +	struct device_node *np = pdev->dev.of_node;
-+	struct ipq4019_regulator_data *drvdata;
++	struct ipq40xx_regulator_data *drvdata;
 +	struct regulator_config cfg = { };
 +	int ret;
 +	struct resource *res;
 +
++	if (np) {
++		config = of_get_ipq40xx_regulator_data(&pdev->dev, np);
++		if (IS_ERR(config))
++			return PTR_ERR(config);
++	}
++
 +	drvdata = devm_kzalloc(&pdev->dev,
-+				sizeof(struct ipq4019_regulator_data),
++				sizeof(struct ipq40xx_regulator_data),
 +				GFP_KERNEL);
 +	if (drvdata == NULL) {
 +		dev_err(&pdev->dev, "Failed to allocate device data\n");
 +		return -ENOMEM;
-+	}
-+
-+	if (np) {
-+		config = of_get_ipq4019_regulator_data(&pdev->dev, np, &drvdata->desc);
-+		if (IS_ERR(config))
-+			return PTR_ERR(config);
 +	}
 +
 +	drvdata->desc.name = kstrdup(config->supply_name, GFP_KERNEL);
@@ -245,13 +244,17 @@ index 000000000..109d88efe
 +
 +	drvdata->config = config;
 +
++	drvdata->desc.owner = THIS_MODULE;
++
 +	drvdata->desc.type = REGULATOR_VOLTAGE;
-+	drvdata->desc.ops = &ipq4019_regulator_voltage_ops;
++	drvdata->desc.ops = &ipq40xx_regulator_voltage_ops;
 +	drvdata->desc.n_voltages = config->nr_states;
++	drvdata->range = 1800000;
 +
 +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 +	drvdata->config->base = devm_ioremap_resource(&pdev->dev, res);
 +	if (IS_ERR(drvdata->config->base)) {
++		dev_err(&pdev->dev, "Failed to ioremap resource\n");
 +		ret = PTR_ERR(drvdata->config->base);
 +		goto err_state;
 +	}
@@ -280,9 +283,9 @@ index 000000000..109d88efe
 +	return ret;
 +}
 +
-+static int ipq4019_regulator_remove(struct platform_device *pdev)
++static int ipq40xx_regulator_remove(struct platform_device *pdev)
 +{
-+	struct ipq4019_regulator_data *drvdata = platform_get_drvdata(pdev);
++	struct ipq40xx_regulator_data *drvdata = platform_get_drvdata(pdev);
 +
 +	regulator_unregister(drvdata->dev);
 +
@@ -294,31 +297,32 @@ index 000000000..109d88efe
 +}
 +
 +#if defined(CONFIG_OF)
-+static const struct of_device_id regulator_ipq4019_of_match[] = {
-+	{ .compatible = "qcom,regulator-ipq4019", },
++static const struct of_device_id regulator_ipq40xx_of_match[] = {
++	{ .compatible = "qcom,regulator-ipq40xx", },
 +	{},
 +};
 +#endif
 +
-+static struct platform_driver ipq4019_regulator_driver = {
-+	.probe		= ipq4019_regulator_probe,
-+	.remove		= ipq4019_regulator_remove,
++static struct platform_driver ipq40xx_regulator_driver = {
++	.probe		= ipq40xx_regulator_probe,
++	.remove		= ipq40xx_regulator_remove,
 +	.driver		= {
-+		.name		= "regulator-ipq4019",
-+		.of_match_table = of_match_ptr(regulator_ipq4019_of_match),
++		.name		= "regulator-ipq40xx",
++		.owner		= THIS_MODULE,
++		.of_match_table = of_match_ptr(regulator_ipq40xx_of_match),
 +	},
 +};
 +
-+static int __init ipq4019_regulator_init(void)
++static int __init ipq40xx_regulator_init(void)
 +{
-+	return platform_driver_register(&ipq4019_regulator_driver);
++	return platform_driver_register(&ipq40xx_regulator_driver);
 +}
-+subsys_initcall(ipq4019_regulator_init);
++subsys_initcall(ipq40xx_regulator_init);
 +
-+static void __exit ipq4019_regulator_exit(void)
++static void __exit ipq40xx_regulator_exit(void)
 +{
-+	platform_driver_unregister(&ipq4019_regulator_driver);
++	platform_driver_unregister(&ipq40xx_regulator_driver);
 +}
-+module_exit(ipq4019_regulator_exit);
++module_exit(ipq40xx_regulator_exit);
 +
-+MODULE_DESCRIPTION("ipq4019 voltage regulator");
++MODULE_DESCRIPTION("ipq40xx voltage regulator");
