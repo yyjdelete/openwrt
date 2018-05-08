@@ -149,10 +149,10 @@ define Device/netgear_orbipro
 	$(call Device/FitImage)
 	$(call Device/UbiFit)
 	DEVICE_DTS := qcom-ipq4019-orbi-pro
-	BLOCKSIZE := 128k
-	PAGESIZE := 2048
+	BLOCKSIZE := 4k
+	PAGESIZE := 256
 	DEVICE_TITLE := Netgear Orbi Pro
-	DEVICE_PACKAGES := ath10k-firmware-qca9984
+	DEVICE_PACKAGES := ath10k-firmware-qca9984 e2fsprogs losetup
 endef
 TARGET_DEVICES += netgear_orbipro
 
