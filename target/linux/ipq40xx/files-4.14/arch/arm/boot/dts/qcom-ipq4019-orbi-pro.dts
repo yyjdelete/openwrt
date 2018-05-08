@@ -117,12 +117,14 @@
 		};
 
 		sdhc_1: sdhci@7824000{
-			status = "ok";
+			status = "okay";
 			qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
 			qcom,clk-rates = <400000 25000000
 					  50000000 100000000
 					  192000000 384000000>;
 			vqmmc-supply = <&vccq_sd0>;
+			pinctrl-0 = <&sd_0_pins>;
+			pinctrl-names = "default";
 			cd-gpios = <&tlmm 22 0x1>;
 			sd-ldo-gpios = <&tlmm 33 0x1>;
 		};
