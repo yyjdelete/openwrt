@@ -25,6 +25,10 @@
 	model = "Netgear Orbi Pro";
 	compatible = "netgear,orbipro", "qcom,ipq4019";
 
+	aliases {
+		sdhc1 = &sdhc_1;
+	};
+
 	soc {
 		mdio@90000 {
 			status = "okay";
@@ -106,6 +110,21 @@
 				gpios = <&tlmm 45 GPIO_ACTIVE_LOW>;
 				linux,code = <KEY_RESTART >;
 			};
+		};
+
+		vccq_sd0: regulator@1948000 {
+			status = "okay";
+		};
+
+		sdhc_1: sdhci@7824000{
+			status = "ok";
+			qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
+			qcom,clk-rates = <400000 25000000
+					  50000000 100000000
+					  192000000 384000000>;
+			vqmmc-supply = <&vccq_sd0>;
+			cd-gpios = <&tlmm 22 0x1>;
+			sd-ldo-gpios = <&tlmm 33 0x1>;
 		};
 	};
 };
@@ -226,21 +245,6 @@
 		spi-max-frequency = <24000000>;
 		use-default-sizes;
 	};*/
-};
-
-&vccq_sd0 {
-	status = "okay";
-};
-
-&sdhci {
-	status = "okay";
-	qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
-	qcom,clk-rates = <400000 25000000
-			  50000000 100000000
-			  192000000 384000000>;
-	vqmmc-supply = <&vccq_sd0>;
-	cd-gpios = <&tlmm 22 0x1>;
-	sd-ldo-gpios = <&tlmm 33 0x1>;
 };
 
 &i2c_0 {
