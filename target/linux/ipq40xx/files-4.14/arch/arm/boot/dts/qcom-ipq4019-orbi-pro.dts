@@ -119,7 +119,7 @@
 			mask = <0x3>;
 		};
 
-		sdhci@7824000 {
+		sdhc_1: sdhci@7824000 {
 			compatible = "qcom,sdhci-msm-v4";
 			status = "okay";
 			pinctrl-0 = <&sd_0_pins>;
@@ -284,8 +284,8 @@
 
 &pcie0 {
 	status = "okay";
-	perst-gpio = <&tlmm 38 GPIO_ACTIVE_HIGH>;
-	wake-gpio = <&tlmm 40 GPIO_ACTIVE_HIGH>;
+	perst-gpio = <&tlmm 38 GPIO_ACTIVE_LOW>;
+	wake-gpio = <&tlmm 40 GPIO_ACTIVE_LOW>;
 	/*clkreq-gpio = <&tlmm 39 GPIO_ACTIVE_HIGH>;*/
 
 	pcie@0 {
