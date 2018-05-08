@@ -285,7 +285,7 @@
 	status = "okay";
 	perst-gpio = <&tlmm 38 GPIO_ACTIVE_HIGH>;
 	wake-gpio = <&tlmm 40 GPIO_ACTIVE_HIGH>;
-	clkreq-gpio = <&tlmm 39 GPIO_ACTIVE_HIGH>;
+	/*clkreq-gpio = <&tlmm 39 GPIO_ACTIVE_HIGH>;*/
 
 	pcie@0 {
 		reg = <0 0 0 0 0>;
