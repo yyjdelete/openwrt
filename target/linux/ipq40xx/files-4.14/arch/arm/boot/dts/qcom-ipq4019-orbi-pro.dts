@@ -262,12 +262,12 @@
 
 &wifi0 {
 	status = "okay";
-	/*qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";*/
+	qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";
 };
 
 &wifi1 {
 	status = "okay";
-	/*qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";*/
+	qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";
 };
 
 &usb3_ss_phy {
