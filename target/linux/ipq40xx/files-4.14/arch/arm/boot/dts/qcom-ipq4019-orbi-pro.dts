@@ -225,12 +225,12 @@
 		mux_1 {
 			pins = "gpio6";
 			function = "mdio";
-			bias-bus-hold;
+			bias-pull-up;
 		};
 		mux_2 {
 			pins = "gpio7";
 			function = "mdc";
-			bias-bus-hold;
+			bias-pull-up;
 		};
 	};
 };
