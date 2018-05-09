@@ -110,6 +110,12 @@
 				gpios = <&tlmm 45 GPIO_ACTIVE_LOW>;
 				linux,code = <KEY_RESTART >;
 			};
+
+			wps {
+				label = "wps";
+				gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
+				linux,code = <KEY_WPS_BUTTON>;
+			};
 		};
 
 		vccq_sd0: regulator@1948000 {
@@ -237,16 +243,6 @@
 	pinctrl-0 = <&spi_0_pins>;
 	pinctrl-names = "default";
 	status = "okay";
-
-	/*m25p80@0 {
-		#address-cells = <1>;
-		#size-cells = <1>;
-		reg = <0>;
-		compatible = "n25q128a11";
-		linux,modalias = "m25p80", "n25q128a11";
-		spi-max-frequency = <24000000>;
-		use-default-sizes;
-	};*/
 };
 
 &i2c_0 {
