@@ -295,7 +295,7 @@
 			status = "okay";
 			reg = <0 0 0 0 0>;
 			device_type = "pci";
-			qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";
+			/*qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";*/
 		};
 	};
 };
