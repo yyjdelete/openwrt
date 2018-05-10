@@ -157,7 +157,11 @@ define Device/netgear_orbipro
 	BLOCKSIZE := 4k
 	PAGESIZE := 256
 	DEVICE_TITLE := Netgear Orbi Pro
-	DEVICE_PACKAGES := ath10k-firmware-qca9984 e2fsprogs losetup
+	IMAGES := sysupgrade.tar mmcblk0p12-kernel.bin mmcblk0p14-rootfs.bin
+	IMAGE/sysupgrade.tar/squashfs := append-rootfs | pad-to $$$${BLOCKSIZE} | sysupgrade-tar rootfs=$$$$@ | append-metadata
+	IMAGE/mmcblk0p14-rootfs.bin := append-rootfs | pad-rootfs | pad-to $$$${BLOCKSIZE}
+	IMAGE/mmcblk0p12-kernel.bin := append-kernel
+	DEVICE_PACKAGES := ath10k-firmware-qca9984 ipq-wifi-netgear_orbipro e2fsprogs losetup
 endef
 TARGET_DEVICES += netgear_orbipro
 
