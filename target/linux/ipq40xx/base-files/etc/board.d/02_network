@@ -25,8 +25,7 @@ asus,rt-ac58u)
 	ucidef_set_interface_macaddr "lan" "$lan_mac_addr"
 	ucidef_set_interface_macaddr "wan" "$wan_mac_addr"
 	;;
-avm,fritzbox-4040 |\
-netgear,orbipro)
+avm,fritzbox-4040)
 	ucidef_set_interfaces_lan_wan "eth0" "eth1"
 	ucidef_add_switch "switch0" \
 		"0u@eth0" "1:lan" "2:lan" "3:lan" "4:lan"
@@ -38,6 +37,11 @@ glinet,gl-b1300)
 	ucidef_set_interfaces_lan_wan "eth0" "eth1"
 	ucidef_add_switch "switch0" \
 		"0u@eth0" "3:lan" "4:lan"
+	;;
+netgear,orbipro)
+	ucidef_set_interfaces_lan_wan "eth0" "eth1"
+	ucidef_add_switch "switch0" \
+		"0u@eth0" "1:wan" "2:lan" "3:lan" "4:lan"
 	;;
 openmesh,a42 |\
 openmesh,a62)
