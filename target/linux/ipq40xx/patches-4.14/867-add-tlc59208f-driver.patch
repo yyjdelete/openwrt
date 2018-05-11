@@ -244,7 +244,7 @@ index 000000000..a19acef28
 +            output_val = tlc59208f_read(LED_GRPFREQ_REG);
 +			return output_val;
 +	      break;
-+        default:
++        deafult:
 +		  break;
 +    }
 +}
