@@ -271,17 +271,17 @@ index 000000000..a19acef28
 +	.attrs = tlc59208f_sysfs_entries,
 +};
 +
-+static int tlc59208f_suspend(struct i2c_client *client, pm_message_t state)
++/*static int tlc59208f_suspend(struct i2c_client *client, pm_message_t state)
 +{
 +	printk("tlc59208f suspend\n");
 +	return 0;
-+}
++}*/
 +
-+static int tlc59208f_resume(struct i2c_client *client)
++/*static int tlc59208f_resume(struct i2c_client *client)
 +{
 +	printk("tlc59208f resume\n");
 +	return 0;
-+}
++}*/
 +
 +static int tlc59208f_shutdown(struct i2c_client *client)
 +{
