@@ -161,6 +161,11 @@
 			pins = "gpio58", "gpio59";
 			bias-disable;
 		};
+		pinconf {
+			pins = "gpio58", "gpio59";
+			drive-strength = <16>;
+			bias-disable;
+		};
 	};
 
 	spi_0_pins: spi_0_pinmux {
