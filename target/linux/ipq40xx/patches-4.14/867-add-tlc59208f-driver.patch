@@ -324,8 +324,8 @@ index 000000000..a19acef28
 +	.probe = tlc59208f_probe,
 +	.remove = tlc59208f_remove,
 +	.id_table = tlc59208f_id,
-+	.suspend = tlc59208f_suspend,
-+	.resume = tlc59208f_resume,
++	/*.suspend = tlc59208f_suspend,
++	.resume = tlc59208f_resume,*/
 +	.shutdown = tlc59208f_shutdown,
 +};
 +
