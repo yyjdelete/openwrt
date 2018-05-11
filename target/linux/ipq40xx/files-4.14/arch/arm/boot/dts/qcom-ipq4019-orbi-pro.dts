@@ -259,6 +259,11 @@
 	pinctrl-names = "default";
 
 	status = "okay";
+	
+	tlc59208f@27 {
+		compatible = "tlc59208f";
+		reg = <0x27>;
+	};
 };
 
 &cryptobam {
@@ -304,7 +309,6 @@
 			status = "okay";
 			reg = <0 0 0 0 0>;
 			device_type = "pci";
-			/*qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";*/
 		};
 	};
 };
