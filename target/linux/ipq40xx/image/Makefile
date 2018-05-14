@@ -162,7 +162,7 @@ define Device/netgear_orbipro
 	IMAGES := sysupgrade.tar mmcblk0p12-kernel.bin mmcblk0p14-rootfs.bin factory.img
 	IMAGE/mmcblk0p14-rootfs.bin := append-rootfs | pad-rootfs | pad-to $$$${BLOCKSIZE}
 	IMAGE/mmcblk0p12-kernel.bin := append-kernel
-	DEVICE_PACKAGES := ath10k-firmware-qca9984 ipq-wifi-netgear_orbipro e2fsprogs losetup
+	DEVICE_PACKAGES := ath10k-firmware-qca9984 ipq-wifi-netgear_orbipro kmod-i2c-tlc59208f e2fsprogs losetup
 endef
 TARGET_DEVICES += netgear_orbipro
 
