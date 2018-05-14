@@ -13,9 +13,8 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/led-control
   SECTION:=utils
-  CATEGORY:=Base system
-  DEFAULT:=y
-  TITLE:=Update utility for LED control
+  CATEGORY:=Utilities
+  TITLE:=Update utility for Netgear Orbi LED control
 endef
 
 define Build/Prepare
