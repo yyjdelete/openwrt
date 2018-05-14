@@ -160,10 +160,8 @@ define Device/netgear_orbipro
 	KERNEL_SIZE := 3932160
 	DEVICE_TITLE := Netgear Orbi Pro
 	IMAGES := sysupgrade.tar mmcblk0p12-kernel.bin mmcblk0p14-rootfs.bin factory.img
-	IMAGE/sysupgrade.tar/squashfs := append-rootfs | pad-to $$$${BLOCKSIZE} | sysupgrade-tar rootfs=$$$$@ | append-metadata
 	IMAGE/mmcblk0p14-rootfs.bin := append-rootfs | pad-rootfs | pad-to $$$${BLOCKSIZE}
 	IMAGE/mmcblk0p12-kernel.bin := append-kernel
-	IMAGE/factory.img := append-kernel | pad-offset $$$$(BLOCKSIZE) 64 | append-uImage-fakehdr filesystem | pad-to $$$$(KERNEL_SIZE) | append-ubi | netgear-dni
 	DEVICE_PACKAGES := ath10k-firmware-qca9984 ipq-wifi-netgear_orbipro e2fsprogs losetup
 endef
 TARGET_DEVICES += netgear_orbipro
