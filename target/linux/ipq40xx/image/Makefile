@@ -159,7 +159,7 @@ define Device/netgear_orbipro
 	NETGEAR_HW_ID := 29765352+0+4096+512+2x2+2x2+4x4
 	KERNEL_SIZE := 3932160
 	DEVICE_TITLE := Netgear Orbi Pro
-	IMAGES := sysupgrade.tar mmcblk0p12-kernel.bin mmcblk0p14-rootfs.bin factory.bin
+	IMAGES := sysupgrade.tar mmcblk0p12-kernel.bin mmcblk0p14-rootfs.bin factory.img
 	IMAGE/sysupgrade.tar/squashfs := append-rootfs | pad-to $$$${BLOCKSIZE} | sysupgrade-tar rootfs=$$$$@ | append-metadata
 	IMAGE/mmcblk0p14-rootfs.bin := append-rootfs | pad-rootfs | pad-to $$$${BLOCKSIZE}
 	IMAGE/mmcblk0p12-kernel.bin := append-kernel
