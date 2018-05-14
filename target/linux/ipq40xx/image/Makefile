@@ -150,7 +150,7 @@ define Device/netgear_orbipro
 	DEVICE_DTS := qcom-ipq4019-orbi-pro
 	BLOCKSIZE := 4k
 	PAGESIZE := 256
-	NETGEAR_BOARD_ID := RSR60
+	NETGEAR_BOARD_ID := SRS60
 	NETGEAR_HW_ID := 29765352+0+4096+512+2x2+2x2+4x4
 	KERNEL_SIZE := 3932160
 	DEVICE_TITLE := Netgear Orbi Pro
