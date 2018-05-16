@@ -106,22 +106,6 @@
 			status = "okay";
 		};
 
-		gpio-keys {
-			compatible = "gpio-keys";
-
-			reset {
-				label = "reset";
-				gpios = <&tlmm 45 GPIO_ACTIVE_LOW>;
-				linux,code = <KEY_RESTART >;
-			};
-
-			wps {
-				label = "wps";
-				gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
-				linux,code = <KEY_WPS_BUTTON>;
-			};
-		};
-
 		vccq_sd0: regulator@1948000 {
 			status = "okay";
 		};
@@ -137,6 +121,22 @@
 			pinctrl-names = "default";
 			cd-gpios = <&tlmm 22 0x1>;
 			sd-ldo-gpios = <&tlmm 33 0x1>;
+		};
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&tlmm 45 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART >;
+		};
+
+		wps {
+			label = "wps";
+			gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_WPS_BUTTON>;
 		};
 	};
 };
