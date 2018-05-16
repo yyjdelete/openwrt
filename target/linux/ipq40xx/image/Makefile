@@ -153,8 +153,8 @@ TARGET_DEVICES += netgear_ex6150v2
 define Device/netgear_orbipro
 	$(call Device/DniImage)
 	DEVICE_DTS := qcom-ipq4019-orbi-pro
-	BLOCKSIZE := 4k
-	PAGESIZE := 256
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
 	NETGEAR_BOARD_ID := SRS60
 	NETGEAR_HW_ID := 29765352+0+4096+512+2x2+2x2+4x4
 	KERNEL_SIZE := 3932160
@@ -162,7 +162,6 @@ define Device/netgear_orbipro
 	IMAGES := sysupgrade.tar mmcblk0p12-kernel.bin mmcblk0p14-rootfs.bin factory.img
 	IMAGE/mmcblk0p14-rootfs.bin := append-rootfs | pad-rootfs | pad-to $$$${BLOCKSIZE}
 	IMAGE/mmcblk0p12-kernel.bin := append-kernel
-	IMAGE/factory.img := append-kernel | pad-offset 128k 64 | append-uImage-fakehdr filesystem | pad-to $$$$(KERNEL_SIZE) | append-rootfs | pad-rootfs | netgear-dni
 	DEVICE_PACKAGES := ath10k-firmware-qca9984 ipq-wifi-netgear_orbipro kmod-i2c-tlc59208f e2fsprogs losetup
 endef
 TARGET_DEVICES += netgear_orbipro
