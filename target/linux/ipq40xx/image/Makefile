@@ -150,6 +150,16 @@ define Device/netgear_ex6150v2
 endef
 TARGET_DEVICES += netgear_ex6150v2
 
+define Device/netgear_wac510
+	$(call Device/FitImage)
+	$(call Device/UbiFit)
+	DEVICE_DTS := qcom-ipq4019-wac510
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	DEVICE_TITLE := Netgear WAC510
+endef
+TARGET_DEVICES += netgear_wac510
+
 define Device/openmesh_a42
 	$(call Device/FitImageLzma)
 	DEVICE_DTS := qcom-ipq4018-a42
