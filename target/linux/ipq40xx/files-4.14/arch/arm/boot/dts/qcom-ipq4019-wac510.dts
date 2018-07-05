@@ -166,11 +166,6 @@
 			gpios = <&led_gpio 1 GPIO_ACTIVE_LOW>;
 		};
 
-		router_green {
-			label = "wac510:green:router";
-			gpios = <&led_gpio 0 GPIO_ACTIVE_LOW>;
-		};
-
 		act_green {
 			label = "wac510:green:act";
 			gpios = <&led_gpio 0 GPIO_ACTIVE_LOW>;
