@@ -290,21 +290,21 @@
 			#address-cells = <1>;
 			#size-cells = <1>;
 
-			partition0@0 {
+			ubi@0 {
 				label = "ubi";
 				reg = <0x00000000 0x03800000>;
 			};
-			partition1@3800000 {
-				label = "roofs_1";
+			stock-backup@3800000 {
+				label = "stock_backup";
 				reg = <0x03800000 0x03800000>;
 				read-only;
 			};
-			partition2@7000000 {
+			var_config@7000000 {
 				label = "var_config";
 				reg = <0x07000000 0x00f00000>;
 				read-only;
 			};
-			partition3@7f00000 {
+			Oops_log@7f00000 {
 				label = "Oops_log";
 				reg = <0x07f00000 0x000c0000>;
 				read-only;
