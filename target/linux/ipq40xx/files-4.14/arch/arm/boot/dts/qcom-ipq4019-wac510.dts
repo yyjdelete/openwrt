@@ -166,15 +166,15 @@
 			gpios = <&led_gpio 1 GPIO_ACTIVE_LOW>;
 		};
 
-		eth0 {
-			label = "wac510:green:eth0";
+		act_gree {
+			label = "wac510:green:act";
 			gpios = <&led_gpio 0 GPIO_ACTIVE_LOW>;
 		};
 
-		eth1 {
-			label = "wac510:green:eth1";
+		eth0 {
+			label = "wac510:green:eth0";
 			gpios = <&tlmm 62 GPIO_ACTIVE_HIGH>;
-			default-state = "off";
+			default-state = "on";
 		};
 	};
 };
