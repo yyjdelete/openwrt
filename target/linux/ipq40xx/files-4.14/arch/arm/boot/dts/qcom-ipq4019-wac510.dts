@@ -145,7 +145,6 @@
 		power_green: power_green {
 			label = "wac510:green:power";
 			gpios = <&led_gpio 5 GPIO_ACTIVE_LOW>;
-			default-state = "on";
 		};
 
 		wlan2g_blue {
