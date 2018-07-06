@@ -171,10 +171,10 @@
 			gpios = <&led_gpio 0 GPIO_ACTIVE_LOW>;
 		};
 
-		eth {
+		/*eth {
 			label = "wac510:green:eth";
 			gpios = <&tlmm 62 GPIO_ACTIVE_HIGH>;
-		};
+		};*/
 	};
 };
 
