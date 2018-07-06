@@ -179,7 +179,7 @@
 		eth {
 			label = "wac510:green:eth";
 			gpios = <&tlmm 62 GPIO_ACTIVE_HIGH>;
-			default-state = "on";
+			default-state = "keep";
 		};
 	};
 };
