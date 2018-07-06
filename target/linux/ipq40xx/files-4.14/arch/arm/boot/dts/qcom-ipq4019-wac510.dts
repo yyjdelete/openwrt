@@ -139,11 +139,13 @@
 		power_amber: power_amber {
 			label = "wac510:amber:power";
 			gpios = <&led_gpio 6 GPIO_ACTIVE_LOW>;
+			panic-indicator;
 		};
 
 		power_green: power_green {
 			label = "wac510:green:power";
 			gpios = <&led_gpio 5 GPIO_ACTIVE_LOW>;
+			default-state = "on";
 		};
 
 		wlan2g_blue {
@@ -166,13 +168,17 @@
 			gpios = <&led_gpio 1 GPIO_ACTIVE_LOW>;
 		};
 
-		act_gree {
+		act_green {
 			label = "wac510:green:act";
 			gpios = <&led_gpio 0 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "heartbeat";
 		};
-
-		eth0 {
-			label = "wac510:green:eth0";
+		/* Netgear powers LEDs for both ports from this GPIO.
+		 * They are wired to the gmacs and controled by them, so
+		 * no need for us to do anything other than turn power
+		 * on by default as gmacs wont work at all without it. */
+		eth {
+			label = "wac510:green:eth";
 			gpios = <&tlmm 62 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
