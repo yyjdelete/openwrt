@@ -173,13 +173,13 @@
 			linux,default-trigger = "heartbeat";
 		};
 		/* Netgear powers LEDs for both ports from this GPIO.
-		 * They are wired to the gmacs and controled by them, so
-		 * no need for us to do anything other than turn power
-		 * on by default as gmacs wont work at all without it. */
+		 * They are wired to the GMACs and controled by them, so
+		 * we need to turn GPIO active after boot, otherwise LEDs
+		 * wont work and GMACs wont work at all without GPIO power. */
 		eth {
 			label = "wac510:green:eth";
 			gpios = <&tlmm 62 GPIO_ACTIVE_HIGH>;
-			default-state = "keep";
+			default-state = "off";
 		};
 	};
 };
