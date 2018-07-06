@@ -219,58 +219,7 @@
 		reg = <0>;
 		compatible = "jedec,spi-nor";
 		spi-max-frequency = <24000000>;
-
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			partition0@0 {
-				label = "0:SBL1";
-				reg = <0x00000000 0x00040000>;
-				read-only;
-			};
-			partition1@40000 {
-				label = "0:MIBIB";
-				reg = <0x00040000 0x00020000>;
-				read-only;
-			};
-			partition2@60000 {
-				label = "0:QSEE";
-				reg = <0x00060000 0x00060000>;
-				read-only;
-			};
-			partition3@c0000 {
-				label = "0:CDT";
-				reg = <0x000c0000 0x00010000>;
-				read-only;
-			};
-			partition4@d0000 {
-				label = "0:DDRPARAMS";
-				reg = <0x000d0000 0x00010000>;
-				read-only;
-			};
-			partition5@e0000 {
-				label = "0:APPSBLENV"; /* uboot env*/
-				reg = <0x000e0000 0x00010000>;
-				read-only;
-			};
-			partition5@f0000 {
-				label = "0:APPSBL"; /* uboot */
-				reg = <0x000f0000 0x000f0000>;
-				read-only;
-			};
-			partition6@1e0000 {
-				label = "0:MANUDATA";
-				reg = <0x001e0000 0x00010000>;
-				read-only;
-			};
-			partition7@1f0000 {
-				label = "0:ART";
-				reg = <0x001e0000 0x00010000>;
-				read-only;
-			};
-		};
+		/* partitions are passed via bootloader */
 	};
 
 	mt29f@1 {
