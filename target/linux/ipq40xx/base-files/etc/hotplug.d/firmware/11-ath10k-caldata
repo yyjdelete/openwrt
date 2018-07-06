@@ -183,7 +183,7 @@ case "$FIRMWARE" in
 		;;
 	netgear,wac510)
 		ath10kcal_extract "0:ART" 20480 12064
-		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/wlan1/address) +1)
+		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/wlan0/address) +1)
 		;;
 	compex,wpj428 |\
 	openmesh,a42 |\
