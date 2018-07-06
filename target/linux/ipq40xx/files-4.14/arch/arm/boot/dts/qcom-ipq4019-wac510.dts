@@ -267,7 +267,7 @@
 			};
 			partition7@1f0000 {
 				label = "0:ART";
-				reg = <0x001e0000 0x00010000>;
+				reg = <0x001f0000 0x00010000>;
 				read-only;
 			};
 		};
