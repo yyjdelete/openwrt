@@ -16,7 +16,6 @@
  */
 
 #include "qcom-ipq4019.dtsi"
-#include "qcom-ipq4019-bus.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/soc/qcom,tcsr.h>
@@ -24,14 +23,6 @@
 / {
 	model = "Netgear Orbi Pro";
 	compatible = "netgear,orbipro", "qcom,ipq4019";
-
-	chosen {
-		bootargs = "root=/dev/mmcblk0p14 rw rootfstype=auto rootwait";
-	};
-
-	aliases {
-		sdhc1 = &sdhc_1;
-	};
 
 	soc {
 		mdio@90000 {
@@ -104,23 +95,6 @@
 
 		edma@c080000 {
 			status = "okay";
-		};
-
-		vccq_sd0: regulator@1948000 {
-			status = "okay";
-		};
-
-		sdhc_1: sdhci@7824000{
-			status = "okay";
-			qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
-			qcom,clk-rates = <400000 25000000
-					  50000000 100000000
-					  192000000 384000000>;
-			vqmmc-supply = <&vccq_sd0>;
-			pinctrl-0 = <&sd_0_pins>;
-			pinctrl-names = "default";
-			cd-gpios = <&tlmm 22 0x1>;
-			sd-ldo-gpios = <&tlmm 33 0x1>;
 		};
 	};
 
@@ -248,21 +222,56 @@
 	status = "okay";
 };
 
-&spi_0 {
+&blsp1_spi1 {
 	pinctrl-0 = <&spi_0_pins>;
 	pinctrl-names = "default";
 	status = "okay";
 };
 
-&i2c_0 {
+&blsp1_i2c3 {
 	pinctrl-0 = <&i2c_0_pins>;
 	pinctrl-names = "default";
 
 	status = "okay";
 	
 	tlc59208f@27 {
-		compatible = "tlc59208f";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "ti,tlc59108";
 		reg = <0x27>;
+		
+		led0@0 {
+			label = "orbi:led0:rgb";
+			reg = <0x0>;
+		};
+		led1@1 {
+			label = "orbi:led1:rgb";
+			reg = <0x1>;
+		};
+		led2@2 {
+			label = "orbi:led2:rgb";
+			reg = <0x2>;
+		};
+		led3@3 {
+			label = "orbi:led3:rgb";
+			reg = <0x3>;
+		};
+		led4@4 {
+			label = "orbi:led4:rgb";
+			reg = <0x4>;
+		};
+		led5@5 {
+			label = "orbi:led5:rgb";
+			reg = <0x5>;
+		};
+		led6@6 {
+			label = "orbi:led6:rgb";
+			reg = <0x6>;
+		};
+		led7@7 {
+			label = "orbi:led7:rgb";
+			reg = <0x7>;
+		};
 	};
 };
 
@@ -311,4 +320,21 @@
 			device_type = "pci";
 		};
 	};
+};
+
+&vccq_sd0 {
+	status = "okay";
+};
+
+&sdhci {
+	status = "okay";
+	qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
+	qcom,clk-rates = <400000 25000000
+			  50000000 100000000
+			  192000000 384000000>;
+	vqmmc-supply = <&vccq_sd0>;
+	pinctrl-0 = <&sd_0_pins>;
+	pinctrl-names = "default";
+	cd-gpios = <&tlmm 22 0x1>;
+	sd-ldo-gpios = <&tlmm 33 0x1>;
 };
