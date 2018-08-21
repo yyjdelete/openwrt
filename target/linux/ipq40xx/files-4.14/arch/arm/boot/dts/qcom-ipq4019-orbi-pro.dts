@@ -326,7 +326,7 @@
 	status = "okay";
 };
 
-&sdhci {
+&sdhci_1 {
 	status = "okay";
 	qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
 	qcom,clk-rates = <400000 25000000
