@@ -28,7 +28,7 @@ index 5c1b097..b90c472 100644
 +			status = "disabled";
 +		};
 +
-+		sdhc_1: sdhci@7824000 {
++		sdhci: sdhci@7824000 {
 +			compatible = "qcom,sdhci-msm";
 +			reg = <0x7824900 0x11c>, <0x7824000 0x800>;
 +			reg-names = "hc_mem", "core_mem";
