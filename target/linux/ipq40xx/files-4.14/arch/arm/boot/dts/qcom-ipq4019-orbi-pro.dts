@@ -172,14 +172,14 @@
 			gpios = <&tlmm 53 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "default-off";
 		};
-		
-		power-green: power-green {
+
+		power_green: power-green {
 			label = "orbi:power:green";
 			gpios = <&tlmm 63 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "keep";
 		};
 
-		power-red: power-red {
+		power_red: power-red {
 			label = "orbi:power:red";
 			gpios = <&tlmm 64 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "default-off";
