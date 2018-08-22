@@ -176,7 +176,7 @@
 		power-green {
 			label = "orbi:power:green";
 			gpios = <&tlmm 63 GPIO_ACTIVE_HIGH>;
-			linux,default-trigger = "keep";
+			linux,default-trigger = "default-on";
 		};
 
 		power-red {
