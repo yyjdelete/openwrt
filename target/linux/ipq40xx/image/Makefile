@@ -162,7 +162,7 @@ define Device/netgear_orbipro
 	IMAGE/mmcblk0p14-rootfs.bin := append-rootfs | pad-rootfs | pad-to $$$${BLOCKSIZE}
 	IMAGE/mmcblk0p12-kernel.bin := append-kernel
 	IMAGE/factory.img := append-kernel | pad-offset 128k 64 | append-uImage-fakehdr filesystem | pad-to $$$$(KERNEL_SIZE) | append-rootfs | pad-rootfs | netgear-dni
-	DEVICE_PACKAGES := ath10k-firmware-qca9984 ipq-wifi-netgear_orbipro kmod-i2c-tlc59208f e2fsprogs kmod-fs-ext4 losetup
+	DEVICE_PACKAGES := ath10k-firmware-qca9984 ipq-wifi-netgear_orbipro kmod-leds-tlc591xx e2fsprogs kmod-fs-ext4 losetup
 endef
 TARGET_DEVICES += netgear_orbipro
 
