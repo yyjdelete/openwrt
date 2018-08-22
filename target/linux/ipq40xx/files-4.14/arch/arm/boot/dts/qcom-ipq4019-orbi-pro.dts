@@ -25,7 +25,7 @@
 	compatible = "netgear,orbipro", "qcom,ipq4019";
 
 	chosen {
-		bootargs = "root=/dev/mmcblk0p14 rw rootfstype=auto rootwait";
+		bootargs = "clk_ignore_unused root=/dev/mmcblk0p14 rw rootfstype=auto rootwait";
 	};
 
 	aliases {
@@ -170,6 +170,18 @@
 		green: green {
 			label = "orbi:green:all";
 			gpios = <&tlmm 53 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-off";
+		};
+		
+		power-green: power-green {
+			label = "orbi:power:green";
+			gpios = <&tlmm 63 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-off";
+		};
+
+		power-red: power-red {
+			label = "orbi:power:red";
+			gpios = <&tlmm 64 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "default-off";
 		};
 	};
