@@ -24,6 +24,14 @@
 	model = "Netgear Orbi Pro";
 	compatible = "netgear,orbipro", "qcom,ipq4019";
 
+	chosen {
+		bootargs = "root=/dev/mmcblk0p14 rw rootfstype=auto rootwait";
+	};
+
+	aliases {
+		sdhc1 = &sdhc_1;
+	};
+
 	soc {
 		mdio@90000 {
 			status = "okay";
@@ -96,6 +104,23 @@
 		edma@c080000 {
 			status = "okay";
 		};
+
+		vccq_sd0: regulator@1948000 {
+			status = "okay";
+		};
+
+		sdhc_1: sdhci@7824000{
+			status = "okay";
+			qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
+			qcom,clk-rates = <400000 25000000
+					  50000000 100000000
+					  192000000 384000000>;
+			vqmmc-supply = <&vccq_sd0>;
+			pinctrl-0 = <&sd_0_pins>;
+			pinctrl-names = "default";
+			cd-gpios = <&tlmm 22 0x1>;
+			sd-ldo-gpios = <&tlmm 33 0x1>;
+		};
 	};
 
 	gpio-keys {
@@ -111,6 +136,41 @@
 			label = "wps";
 			gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_WPS_BUTTON>;
+		};
+	};
+
+	aliases {
+		led-boot = &white;
+		led-failsafe = &red;
+		led-running = &green;
+		led-upgrade = &blue;
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+
+		white: white {
+			label = "orbi:white:all";
+			gpios = <&tlmm 60 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-off";
+		};
+
+		blue: blue {
+			label = "orbi:blue:all";
+			gpios = <&tlmm 57 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-off";
+		};
+
+		red: red {
+			label = "orbi:red:all";
+			gpios = <&tlmm 54 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-off";
+		};
+
+		green: green {
+			label = "orbi:green:all";
+			gpios = <&tlmm 53 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-off";
 		};
 	};
 };
@@ -320,21 +380,4 @@
 			device_type = "pci";
 		};
 	};
-};
-
-&vccq_sd0 {
-	status = "okay";
-};
-
-&sdhci_1 {
-	status = "okay";
-	qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
-	qcom,clk-rates = <400000 25000000
-			  50000000 100000000
-			  192000000 384000000>;
-	vqmmc-supply = <&vccq_sd0>;
-	pinctrl-0 = <&sd_0_pins>;
-	pinctrl-names = "default";
-	cd-gpios = <&tlmm 22 0x1>;
-	sd-ldo-gpios = <&tlmm 33 0x1>;
 };
