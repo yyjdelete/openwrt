@@ -25,7 +25,7 @@
 	compatible = "netgear,orbipro", "qcom,ipq4019";
 
 	chosen {
-		bootargs = "rootwait clk_ignore_unused";
+		bootargs = "clk_ignore_unused root=/dev/mmcblk0p14 rootwait";
 	};
 
 	aliases {
