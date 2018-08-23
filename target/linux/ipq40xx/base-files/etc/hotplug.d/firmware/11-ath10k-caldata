@@ -129,6 +129,7 @@ case "$FIRMWARE" in
 	case "$board" in
 	netgear,orbipro)
 		ath10kcal_extract "0:ART" 36864 12064
+		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address) +3)
 		;;
 	openmesh,a62)
 		ath10kcal_extract "0:ART" 36864 12064
@@ -159,8 +160,11 @@ case "$FIRMWARE" in
 		ath10kcal_extract "ART" 4096 12064
 		ath10kcal_patch_mac_crc $(mtd_get_mac_binary dnidata 0)
 		;;
+	netgear,orbipro)
+		ath10kcal_extract "0:ART" 4096 12064
+		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address))
+		;;
 	compex,wpj428 |\
-	netgear,orbipro |\
 	openmesh,a42 |\
 	openmesh,a62)
 		ath10kcal_extract "0:ART" 4096 12064
@@ -196,8 +200,11 @@ case "$FIRMWARE" in
 		ath10kcal_extract "ART" 20480 12064
 		ath10kcal_patch_mac_crc $(mtd_get_mac_binary dnidata 12)
 		;;
+	netgear,orbipro)
+		ath10kcal_extract "0:ART" 20480 12064
+		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address) +2)
+		;;
 	compex,wpj428 |\
-	netgear,orbipro |\
 	openmesh,a42 |\
 	openmesh,a62)
 		ath10kcal_extract "0:ART" 20480 12064
