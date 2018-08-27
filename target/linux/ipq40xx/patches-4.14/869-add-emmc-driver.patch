@@ -13,11 +13,9 @@ Patch in driver to support EMMC as the upstream one does not.
  create mode 100644 drivers/mmc/host/sdhci-msm2.c
  create mode 100644 drivers/mmc/host/sdhci-msm2.h
 
-diff --git a/drivers/mmc/host/Makefile b/drivers/mmc/host/Makefile
-index 7c7b29ff5..e76499918 100644
 --- a/drivers/mmc/host/Makefile
 +++ b/drivers/mmc/host/Makefile
-@@ -86,7 +86,7 @@ obj-$(CONFIG_MMC_SDHCI_OF_ESDHC)	+= sdhci-of-esdhc.o
+@@ -86,7 +86,7 @@ obj-$(CONFIG_MMC_SDHCI_OF_ESDHC)	+= sdhc
  obj-$(CONFIG_MMC_SDHCI_OF_HLWD)		+= sdhci-of-hlwd.o
  obj-$(CONFIG_MMC_SDHCI_BCM_KONA)	+= sdhci-bcm-kona.o
  obj-$(CONFIG_MMC_SDHCI_IPROC)		+= sdhci-iproc.o
@@ -26,9 +24,6 @@ index 7c7b29ff5..e76499918 100644
  obj-$(CONFIG_MMC_SDHCI_ST)		+= sdhci-st.o
  obj-$(CONFIG_MMC_SDHCI_MICROCHIP_PIC32)	+= sdhci-pic32.o
  obj-$(CONFIG_MMC_SDHCI_BRCMSTB)		+= sdhci-brcmstb.o
-diff --git a/drivers/mmc/host/sdhci-msm2.c b/drivers/mmc/host/sdhci-msm2.c
-new file mode 100644
-index 000000000..38d2b0c8f
 --- /dev/null
 +++ b/drivers/mmc/host/sdhci-msm2.c
 @@ -0,0 +1,3031 @@
@@ -3063,9 +3058,6 @@ index 000000000..38d2b0c8f
 +
 +MODULE_DESCRIPTION("Qualcomm Secure Digital Host Controller Interface driver");
 +MODULE_LICENSE("GPL v2");
-diff --git a/drivers/mmc/host/sdhci-msm2.h b/drivers/mmc/host/sdhci-msm2.h
-new file mode 100644
-index 000000000..08e063e68
 --- /dev/null
 +++ b/drivers/mmc/host/sdhci-msm2.h
 @@ -0,0 +1,193 @@
@@ -3262,8 +3254,6 @@ index 000000000..08e063e68
 +	return;
 +}
 +#endif /* __SDHCI_MSM_H__ */
-diff --git a/drivers/mmc/host/sdhci-pltfm.h b/drivers/mmc/host/sdhci-pltfm.h
-index 1e91fb1c0..6cd47e35a 100644
 --- a/drivers/mmc/host/sdhci-pltfm.h
 +++ b/drivers/mmc/host/sdhci-pltfm.h
 @@ -29,6 +29,7 @@ struct sdhci_pltfm_host {

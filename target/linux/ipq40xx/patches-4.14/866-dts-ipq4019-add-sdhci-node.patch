@@ -8,11 +8,9 @@ Add SDHCI node that is needed to support SDHCI in IPQ4019 as the device supports
  arch/arm/boot/dts/qcom-ipq4019.dtsi | 27 +++++++++++++++++++++++++++
  1 file changed, 27 insertions(+)
 
-diff --git a/arch/arm/boot/dts/qcom-ipq4019.dtsi b/arch/arm/boot/dts/qcom-ipq4019.dtsi
-index 5c1b097..b90c472 100644
 --- a/arch/arm/boot/dts/qcom-ipq4019.dtsi
 +++ b/arch/arm/boot/dts/qcom-ipq4019.dtsi
-@@ -439,6 +439,33 @@
+@@ -445,6 +445,33 @@
  			status = "disabled";
  		};
  

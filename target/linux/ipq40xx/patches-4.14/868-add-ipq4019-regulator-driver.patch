@@ -11,8 +11,6 @@ Add driver for the ipq-4019 regulators
  3 files changed, 288 insertions(+)
  create mode 100644 drivers/regulator/ipq4019-regulator.c
 
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 0fd619560..84c3cacbc 100644
 --- a/drivers/regulator/Kconfig
 +++ b/drivers/regulator/Kconfig
 @@ -958,5 +958,12 @@ config REGULATOR_WM8994
@@ -28,11 +26,9 @@ index 0fd619560..84c3cacbc 100644
 +
  endif
  
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 80ffc57a9..add8ec1c5 100644
 --- a/drivers/regulator/Makefile
 +++ b/drivers/regulator/Makefile
-@@ -122,6 +122,7 @@ obj-$(CONFIG_REGULATOR_WM831X) += wm831x-ldo.o
+@@ -122,6 +122,7 @@ obj-$(CONFIG_REGULATOR_WM831X) += wm831x
  obj-$(CONFIG_REGULATOR_WM8350) += wm8350-regulator.o
  obj-$(CONFIG_REGULATOR_WM8400) += wm8400-regulator.o
  obj-$(CONFIG_REGULATOR_WM8994) += wm8994-regulator.o
@@ -40,9 +36,6 @@ index 80ffc57a9..add8ec1c5 100644
  
  
  ccflags-$(CONFIG_REGULATOR_DEBUG) += -DDEBUG
-diff --git a/drivers/regulator/ipq4019-regulator.c b/drivers/regulator/ipq4019-regulator.c
-new file mode 100644
-index 000000000..25f8946b7
 --- /dev/null
 +++ b/drivers/regulator/ipq4019-regulator.c
 @@ -0,0 +1,280 @@
