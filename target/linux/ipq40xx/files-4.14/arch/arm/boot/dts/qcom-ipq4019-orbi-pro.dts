@@ -25,8 +25,7 @@
 	compatible = "netgear,orbipro", "qcom,ipq4019";
 
 	chosen {
-		bootargs = "rootfstype=squashfs,ext4 rootwait noinitrd";
-		append-rootblock = "root=/dev/mmcblk0p";
+		bootargs = "rootfstype=squashfs,ext4 rootwait noinitrd root=/dev/mmcblk0p15";
 	};
 
 	aliases {
