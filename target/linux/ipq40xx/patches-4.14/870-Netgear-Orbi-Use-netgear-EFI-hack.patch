@@ -1,0 +1,147 @@
+From f00d71699cee98ea961722c774a98fd353c03064 Mon Sep 17 00:00:00 2001
+From: Robert Marko <robimarko@gmail.com>
+Date: Wed, 29 Aug 2018 19:39:22 +0200
+Subject: [PATCH] Netgear Orbi: Use netgear EFI hack
+
+Signed-off-by: Robert Marko <robimarko@gmail.com>
+---
+ block/partitions/efi.c | 100 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 100 insertions(+)
+
+diff --git a/block/partitions/efi.c b/block/partitions/efi.c
+index 39f70d96..d70b6137 100644
+--- a/block/partitions/efi.c
++++ b/block/partitions/efi.c
+@@ -103,6 +103,7 @@
+ #include <linux/slab.h>
+ #include "check.h"
+ #include "efi.h"
++#include <linux/root_dev.h>
+ 
+ /* This allows a kernel command line option 'gpt' to override
+  * the test for invalid PMBR.  Not __initdata because reloading
+@@ -689,6 +690,65 @@ static int find_valid_gpt(struct parsed_partitions *state, gpt_header **gpt,
+  *  1 if successful
+  *
+  */
++
++struct dni_partition
++{
++	char name[32];
++	u32 start_r; /* Offset */
++	u32 size_r;  /* Size */
++};
++
++struct dni_partition dni_custom_part[] = {
++{"ARTMTD", 0x2C22, 0x200},
++{"language",0x2E22, 0x1000},
++{"config",  0x3E22, 0x200},
++{"pot",     0x4022, 0x200},
++{"traffic_meter", 0x4222, 0x200},
++{"pot_bak", 0x4422, 0x200},
++{"traffic_meter.bak", 0x4622, 0x200},
++{"kernel",  0x4822, 0x1E00},
++{"rootfs",  0x6622, 0xF600},
++{"firmware",0x4822, 0x11400},
++{"mtdoops", 0x15C22, 0x200},
++{"cert", 0x15E22, 0x080},
++{"kernel-2",  0x15EA2, 0x1E00},
++{"rootfs-2",  0x17CA2, 0xF600},
++{"firmware-2",0x15EA2, 0x11400},
++{"device_table", 0x272A2, 0x2800},
++{"cp_file", 0x29AA2, 0x8800},
++{"streamboost", 0x322A2, 0x19000},
++{"forceshield", 0x4B2A2, 0xF000},
++{"arlo", 0x5A2A2, 0x8000},
++{"insight", 0x622A2, 0x4000},
++{"ragapa", 0x662A2, 0x96000},
++{"reserved",0xFC2A2, 0x1D0AFF},
++};
++
++/* read the rootfs partition number from ART.
++ * the parameter root= should be not set, otherwise this ROOT_DEV wil be covered.
++ */
++extern int mmc_dni_art_read_boot_part(char *part_no);
++static void read_boot_part_from_art(struct parsed_partitions *state)
++{
++	char boot_part_num[3] = {0};
++	unsigned root_part;
++	/* read the boot partition number from mmc ART partition */
++	mmc_dni_art_read_boot_part(boot_part_num);
++	pr_notice("%s: the rootfs part num is #%s\n", __func__, boot_part_num);
++
++	if (strncmp(boot_part_num, "02", 2) == 0)
++		root_part = 25; /* boot from the second rootfs */
++	else
++		root_part = 20;
++
++	if (ROOT_DEV == 0 && config_enabled(CONFIG_MTD_ROOTFS_ROOT_DEV)) {
++		ROOT_DEV = MKDEV(MAJOR(state->bdev->bd_dev), root_part);
++		pr_notice("ART part: device [%d:%d] mmcblk0p%d set to be root filesystem\n",
++				MAJOR(ROOT_DEV), MINOR(ROOT_DEV),
++				root_part);
++	}
++}
++
+ int efi_partition(struct parsed_partitions *state)
+ {
+ 	gpt_header *gpt = NULL;
+@@ -696,6 +756,9 @@ int efi_partition(struct parsed_partitions *state)
+ 	u32 i;
+ 	unsigned ssz = bdev_logical_block_size(state->bdev) / 512;
+ 
++	if (!saved_rootfs_name[0])
++		strlcpy(saved_rootfs_name, "rootfs", sizeof("rootfs"));
++
+ 	if (!find_valid_gpt(state, &gpt, &ptes) || !gpt || !ptes) {
+ 		kfree(gpt);
+ 		kfree(ptes);
+@@ -735,8 +798,45 @@ int efi_partition(struct parsed_partitions *state)
+ 			info->volname[label_count] = c;
+ 			label_count++;
+ 		}
++
++		pr_notice("#: vol name is %s, start is 0x%llx, size is 0x%llx, ssz is 0x%x\n", info->volname, start, size, ssz);
++		if (ROOT_DEV == 0 &&
++		    !strcmp(info->volname, saved_rootfs_name) &&
++		    config_enabled(CONFIG_MTD_ROOTFS_ROOT_DEV)) {
++			ROOT_DEV = MKDEV(MAJOR(state->bdev->bd_dev), i + 1);
++			pr_notice("GPT: device [%d:%d] (%s) set to be root filesystem\n",
++				MAJOR(ROOT_DEV), MINOR(ROOT_DEV),
++				info->volname);
++		}
+ 		state->parts[i + 1].has_info = true;
+ 	}
++
++	/* Append Define the partition by DNI */
++	int j = 0, k = 0;
++	k = ((i >= 5) ? (i - 5) : 0); /* decide the partition number */
++	for (j = 0; j < (sizeof(dni_custom_part) / sizeof(struct dni_partition)); j++){
++		struct partition_meta_info info_r;
++		u64 start_r, size_r;
++
++		start_r = dni_custom_part[j].start_r;
++		size_r = dni_custom_part[j].size_r;
++
++		put_partition(state, k+1, start_r * ssz, size_r * ssz);
++		strcpy(info_r.volname, dni_custom_part[j].name);
++
++		pr_notice("#: vol name is %s, start is 0x%llx, size is 0x%llx, ssz is 0x%x\n", info_r.volname, start_r, size_r, ssz);
++		if (ROOT_DEV == 0 && !strcmp(info_r.volname, "rootfs") &&
++			config_enabled(CONFIG_MTD_ROOTFS_ROOT_DEV)) {
++				ROOT_DEV = MKDEV(MAJOR(state->bdev->bd_dev), k + 1);
++				pr_notice("GPT: device [%d:%d] (%s) set to be root filesystem\n",
++					MAJOR(ROOT_DEV), MINOR(ROOT_DEV),
++					info_r.volname);
++		}
++		state->parts[k + 1].has_info = true;
++
++		k++;
++	}
++
+ 	kfree(ptes);
+ 	kfree(gpt);
+ 	strlcat(state->pp_buf, "\n", PAGE_SIZE);
+-- 
+2.17.1
+
