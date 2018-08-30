@@ -127,7 +127,8 @@ case "$FIRMWARE" in
 	;;
 "ath10k/pre-cal-pci-0000:01:00.0.bin")
 	case "$board" in
-	netgear,orbipro)
+	netgear,orbipro-srr60 |\
+	netgear,orbipro-srs60)
 		ath10kcal_extract "0:ART" 36864 12064
 		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address) +3)
 		;;
@@ -160,7 +161,8 @@ case "$FIRMWARE" in
 		ath10kcal_extract "ART" 4096 12064
 		ath10kcal_patch_mac_crc $(mtd_get_mac_binary dnidata 0)
 		;;
-	netgear,orbipro)
+	netgear,orbipro-srr60 |\
+	netgear,orbipro-srs60)
 		ath10kcal_extract "0:ART" 4096 12064
 		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address))
 		;;
@@ -200,7 +202,8 @@ case "$FIRMWARE" in
 		ath10kcal_extract "ART" 20480 12064
 		ath10kcal_patch_mac_crc $(mtd_get_mac_binary dnidata 12)
 		;;
-	netgear,orbipro)
+	netgear,orbipro-srr60 |\
+	netgear,orbipro-srs60)
 		ath10kcal_extract "0:ART" 20480 12064
 		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address) +2)
 		;;
