@@ -38,9 +38,10 @@ glinet,gl-b1300)
 	ucidef_add_switch "switch0" \
 		"0u@eth0" "3:lan" "4:lan"
 	;;
+netgear,orbipro-srsr60 |\
 netgear,orbipro-srs60)
 	ucidef_add_switch "switch0" \
-	"1:lan" "2:lan" "3:lan" "4:wan" "0@eth0"
+	"1:wan" "2:lan" "3:lan" "4:lan" "0@eth0"
 	;;
 openmesh,a42 |\
 openmesh,a62)
