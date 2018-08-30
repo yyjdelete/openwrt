@@ -167,7 +167,6 @@ define Device/netgear_orbipro-srs60
 endef
 TARGET_DEVICES += netgear_orbipro-srs60
 
-
 define Device/netgear_orbipro-srr60
 	$(call Device/netgear_orbipro-srs60)
 	DEVICE_DTS := qcom-ipq4019-orbi-pro-SRR60
