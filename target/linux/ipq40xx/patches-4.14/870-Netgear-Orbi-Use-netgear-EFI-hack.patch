@@ -77,7 +77,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 +{"reserved",0xFC2A2, 0x1D0AFF},
 +};
 +
-+#define DEFAULT_BOOT_PARTITON2 "02" /* the default boot partition "01" */
++#define DEFAULT_BOOT_PARTITON1 "01" /* the default boot partition "01" */
 +#define BOARD_DATA_BOOT_PARTITION_LENGTH 0x2 /* boot partition: 2 */
 +
 +/* read the rootfs partition number from ART.
@@ -86,7 +86,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 +static void read_boot_part_from_art(struct parsed_partitions *state)
 +{
 +	char boot_part_num[3] = {0};
-+	strncpy(boot_part_num, DEFAULT_BOOT_PARTITON2, BOARD_DATA_BOOT_PARTITION_LENGTH);
++	strncpy(boot_part_num, DEFAULT_BOOT_PARTITON1, BOARD_DATA_BOOT_PARTITION_LENGTH);
 +	unsigned root_part;
 +	/* read the boot partition number from mmc ART partition */
 +	/* Hacked to not have to patch MMC_TEST, hardcoded to #01 */
