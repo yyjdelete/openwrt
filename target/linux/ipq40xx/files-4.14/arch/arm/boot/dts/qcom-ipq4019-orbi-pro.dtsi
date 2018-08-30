@@ -21,9 +21,6 @@
 #include <dt-bindings/soc/qcom,tcsr.h>
 
 / {
-	model = "Netgear Orbi Pro";
-	compatible = "netgear,orbipro", "qcom,ipq4019";
-
 	chosen {
 		bootargs = "root=/dev/mmcblk0p20 rootfstype=squashfs,ext4 rootwait clk_ignore_unused";
 	};
