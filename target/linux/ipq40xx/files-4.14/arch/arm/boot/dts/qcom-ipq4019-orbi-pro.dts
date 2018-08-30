@@ -361,6 +361,25 @@
 	qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";
 };
 
+&pcie0 {
+	status = "okay";
+	perst-gpio = <&tlmm 38 GPIO_ACTIVE_LOW>;
+	wake-gpio = <&tlmm 40 GPIO_ACTIVE_LOW>;
+
+	bridge@0,0 {
+		reg = <0x00000000 0 0 0 0>;
+		#address-cells = <3>;
+		#size-cells = <2>;
+		ranges;
+
+		wifi2: wifi@0,0 {
+			compatible = "qcom,ath10k";
+			status = "okay";
+			reg = <0x00010000 0 0 0 0>;
+		};
+	};
+};
+
 &usb3_ss_phy {
 	status = "okay";
 };
@@ -371,25 +390,4 @@
 
 &usb2_hs_phy {
 	status = "okay";
-};
-
-&pcie0 {
-	status = "okay";
-	perst-gpio = <&tlmm 38 GPIO_ACTIVE_LOW>;
-	wake-gpio = <&tlmm 40 GPIO_ACTIVE_LOW>;
-
-	pcie@0 {
-		reg = <0 0 0 0 0>;
-		#interrupt-cells = <1>;
-		#size-cells = <2>;
-		#address-cells = <3>;
-		device_type = "pci";
-
-		ath10k@0,0 {
-			compatible = "qcom,ath10k";
-			status = "okay";
-			reg = <0 0 0 0 0>;
-			device_type = "pci";
-		};
-	};
 };
