@@ -8,8 +8,6 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
  block/partitions/efi.c | 115 +++++++++++++++++++++++++++++++++++++++++
  1 file changed, 115 insertions(+)
 
-diff --git a/block/partitions/efi.c b/block/partitions/efi.c
-index 39f70d96..616cd2d9 100644
 --- a/block/partitions/efi.c
 +++ b/block/partitions/efi.c
 @@ -103,12 +103,14 @@
@@ -41,7 +39,7 @@ index 39f70d96..616cd2d9 100644
  
  /**
   * efi_crc32() - EFI version of crc32 function
-@@ -689,6 +698,68 @@ static int find_valid_gpt(struct parsed_partitions *state, gpt_header **gpt,
+@@ -689,6 +698,68 @@ static int find_valid_gpt(struct parsed_
   *  1 if successful
   *
   */
@@ -110,7 +108,7 @@ index 39f70d96..616cd2d9 100644
  int efi_partition(struct parsed_partitions *state)
  {
  	gpt_header *gpt = NULL;
-@@ -696,6 +767,9 @@ int efi_partition(struct parsed_partitions *state)
+@@ -696,6 +767,9 @@ int efi_partition(struct parsed_partitio
  	u32 i;
  	unsigned ssz = bdev_logical_block_size(state->bdev) / 512;
  
@@ -120,7 +118,7 @@ index 39f70d96..616cd2d9 100644
  	if (!find_valid_gpt(state, &gpt, &ptes) || !gpt || !ptes) {
  		kfree(gpt);
  		kfree(ptes);
-@@ -704,6 +778,8 @@ int efi_partition(struct parsed_partitions *state)
+@@ -704,6 +778,8 @@ int efi_partition(struct parsed_partitio
  
  	pr_debug("GUID Partition Table is valid!  Yea!\n");
  
@@ -129,7 +127,7 @@ index 39f70d96..616cd2d9 100644
  	for (i = 0; i < le32_to_cpu(gpt->num_partition_entries) && i < state->limit-1; i++) {
  		struct partition_meta_info *info;
  		unsigned label_count = 0;
-@@ -735,8 +811,47 @@ int efi_partition(struct parsed_partitions *state)
+@@ -735,8 +811,47 @@ int efi_partition(struct parsed_partitio
  			info->volname[label_count] = c;
  			label_count++;
  		}
@@ -177,6 +175,3 @@ index 39f70d96..616cd2d9 100644
  	kfree(ptes);
  	kfree(gpt);
  	strlcat(state->pp_buf, "\n", PAGE_SIZE);
--- 
-2.17.1
-
