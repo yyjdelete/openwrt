@@ -95,6 +95,7 @@
 
 		ess-switch@c000000 {
 			status = "okay";
+			switch_mac_mode = <0x0>; /* mac mode for RGMII RMII */
 		};
 
 		edma@c080000 {
