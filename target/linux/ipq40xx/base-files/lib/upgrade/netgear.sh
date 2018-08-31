@@ -81,6 +81,7 @@ netgear_do_upgrade() {
 	case "$board" in
 	netgear,orbipro-srr60 |\
 	netgear,orbipro-srs60)
+		;;
 			*)
 				return 1
 			;;
