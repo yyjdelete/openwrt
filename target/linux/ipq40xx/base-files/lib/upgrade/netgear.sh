@@ -82,9 +82,6 @@ netgear_do_upgrade() {
 	netgear,orbipro-srr60 |\
 	netgear,orbipro-srs60)
 		;;
-			*)
-				return 1
-			;;
 		esac
 		;;
 	*)
