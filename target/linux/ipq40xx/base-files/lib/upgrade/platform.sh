@@ -46,9 +46,7 @@ zyxel_do_upgrade() {
 
 platform_do_upgrade() {
 	case "$(board_name)" in
-	8dev,jalapeno |\
-	netgear,orbipro-srr60 |\
-	netgear,orbipro-srs60)
+	8dev,jalapeno)
 		nand_do_upgrade "$ARGV"
 		;;
 	asus,rt-ac58u)
