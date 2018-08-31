@@ -21,7 +21,6 @@ netgear_do_flash() {
 	local tar_file=$1
 	local kernel=$2
 	local rootfs=$3
-	local dualflagmtd=$4
 
 	# keep sure its unbound
 	losetup --detach-all || {
@@ -79,11 +78,6 @@ netgear_do_upgrade() {
 
 	[ -b "${rootfs}" ] || return 1
 	case "$board" in
-	netgear,orbipro-srr60 |\
-	netgear,orbipro-srs60)
-		;;
-		esac
-		;;
 	*)
 		return 1
 		;;
