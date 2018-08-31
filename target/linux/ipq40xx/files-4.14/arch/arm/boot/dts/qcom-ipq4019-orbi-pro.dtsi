@@ -95,7 +95,6 @@
 
 		ess-switch@c000000 {
 			status = "okay";
-			switch_lan_bmp = <0x10>; /* lan port bitmap */
 		};
 
 		edma@c080000 {
