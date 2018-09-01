@@ -77,6 +77,7 @@ netgear_do_upgrade() {
 	local kernel=
 
 	[ -b "${rootfs}" ] || return 1
+	case "$board" in
 	netgear,orbipro-srr60 |\
 	netgear,orbipro-srs60)
 
