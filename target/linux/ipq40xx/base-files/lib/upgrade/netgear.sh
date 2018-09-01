@@ -77,7 +77,27 @@ netgear_do_upgrade() {
 	local kernel=
 
 	[ -b "${rootfs}" ] || return 1
-	case "$board" in
+	netgear,orbipro-srr60 |\
+	netgear,orbipro-srs60)
+
+		case "$rootfs" in
+			"/dev/mmcblk0p20")
+				# booted from the primary partition set
+				# write to the alternative set
+				kernel="/dev/mmcblk0p19"
+				rootfs="/dev/mmcblk0p20"
+			;;
+			"/dev/mmcblk0p25")
+				# booted from the alternative partition set
+				# write to the primary set
+				kernel="/dev/mmcblk0p24"
+				rootfs="/dev/mmcblk0p25"
+			;;
+			*)
+				return 1
+			;;
+		esac
+		;;
 	*)
 		return 1
 		;;
