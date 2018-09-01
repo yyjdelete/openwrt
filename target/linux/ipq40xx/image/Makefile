@@ -163,6 +163,7 @@ define Device/netgear_orbipro-srs60
 	IMAGE/rootfs.bin := append-rootfs | pad-rootfs | pad-to $$$${ROOTFS_SIZE}
 	IMAGE/kernel.bin := append-kernel
 	IMAGE/factory.img := append-kernel | pad-offset 128k 64 | append-uImage-fakehdr filesystem | pad-to $$$$(KERNEL_SIZE) | append-rootfs | pad-rootfs | pad-to $$$${ROOTFS_SIZE} | netgear-dni
+	IMAGE/sysupgrade.bin/squashfs := append-rootfs | pad-rootfs | check-size $$$$(ROOTFS_SIZE) | sysupgrade-tar rootfs=$$$$@ | append-metadata
 	DEVICE_PACKAGES := ath10k-firmware-qca9984 ipq-wifi-netgear_orbipro kmod-leds-tlc591xx e2fsprogs kmod-fs-ext4 losetup
 endef
 TARGET_DEVICES += netgear_orbipro-srs60
