@@ -349,12 +349,12 @@
 
 &wifi0 {
 	status = "okay";
-	qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";
+	qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro-SRK60";
 };
 
 &wifi1 {
 	status = "okay";
-	qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";
+	qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro-SRK60";
 };
 
 &pcie0 {
@@ -372,7 +372,7 @@
 			compatible = "qcom,ath10k";
 			status = "okay";
 			reg = <0x00010000 0 0 0 0>;
-			qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro";
+			qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro-SRK60";
 		};
 	};
 };
