@@ -23,14 +23,12 @@
 / {
 	chosen {
 		bootargs = "root=/dev/mmcblk0p25 rootfstype=squashfs,ext4 rootwait clk_ignore_unused
-		blkdevparts=mmcblk0:512k(0:SBL1),512k(0:BOOTCONFIG),512k(0:QSEE),512k(0:QSEE_1),256k(0:CDT),256k(0:CDT_1),
-		512k(0:BOOTCONFIG1),256k(0:APPSBLENV),1M(0:APPSBL),1M(0:APPSBL_1),256k(0:ART),8M(0:HLOS),8M(0:HLOS_1),
-		64M(rootfs),64M(rootfs_1),1.3G(rootfs_data),512@0x2C22(ARTMTD),4k@0x2E22(language),512k@0x3E22(config),
+		blkdevparts=mmcblk0:512K@0x2C22(ARTMTD),4k@0x2E22(language),512k@0x3E22(config),
 		512k@0x4022(pot),512k@0x4222(traffic_meter),512k@0x4422(pot_bak),512k@0x4622(traffic_meter.bak),
 		7680k@0x4822(kernel),62976k@0x6622(rootfs),70656k@0x4822(firmware),512k@0x15C22(mtdoops),
 		128k@0x15E22(cert),7680k@0x15EA2(kernel-2),62976k@0x17CA2(rootfs-2),70656k@0x15EA2(firmware-2),
 		10240k@0x272A2(device_table),34816k@0x29AA2(cp_file),102400k@0x322A2(streamboost),61440k@0x4B2A2(forceshield),
-		32768k@0x5A2A2(arlo),16384k@0x622A2(insight),614400k@0x662A2(ragapa),1903359k@0xFC2A2(reserved)";
+		32768k@0x5A2A2(arlo),16384k@0x622A2(insight),614400k@0x662A2(ragapa),1903359k@0xFC2A2(reserved);";
 	};
 
 	aliases {
