@@ -164,7 +164,7 @@ case "$FIRMWARE" in
 	netgear,orbipro-srr60 |\
 	netgear,orbipro-srs60)
 		ath10kcal_extract "0:ART" 4096 12064
-		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address))
+		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address) +0)
 		;;
 	compex,wpj428 |\
 	openmesh,a42 |\
