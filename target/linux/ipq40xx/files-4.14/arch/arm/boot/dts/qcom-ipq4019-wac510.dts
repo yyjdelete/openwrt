@@ -288,7 +288,31 @@
 		compatible = "spinand,mt29f", "w25n01gv";
 		reg = <1>;
 		spi-max-frequency = <24000000>;
-		/* partitions are passed via bootloader */
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			ubi@0 {
+				label = "ubi";
+				reg = <0x00000000 0x03800000>;
+			};
+			stock-backup@3800000 {
+				label = "stock_backup";
+				reg = <0x03800000 0x03800000>;
+				/* read-only; */
+			};
+			var_config@7000000 {
+				label = "var_config";
+				reg = <0x07000000 0x00f00000>;
+				read-only;
+			};
+			Oops_log@7f00000 {
+				label = "Oops_log";
+				reg = <0x07f00000 0x000c0000>;
+				read-only;
+			};
+		};
 	};
 };
 
