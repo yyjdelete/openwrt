@@ -89,7 +89,6 @@
 
 		ess-switch@c000000 {
 			status = "okay";
-			switch_lan_bmp = <0x10>; /* lan port bitmap */
 		};
 
 		edma@c080000 {
@@ -302,7 +301,7 @@
 			stock-backup@3800000 {
 				label = "stock_backup";
 				reg = <0x03800000 0x03800000>;
-				read-only;
+				/* read-only; */
 			};
 			var_config@7000000 {
 				label = "var_config";
