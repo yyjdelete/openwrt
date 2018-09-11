@@ -1,0 +1,13 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2015 OpenWrt.org
+
+START=97
+boot() {
+. /lib/functions.sh
+
+case $(board_name) in
+	netgear,wac510)
+		echo "1" > /sys/devices/platform/gpio-leds/leds/wac510:green:eth/brightness
+		;;
+esac
+}
