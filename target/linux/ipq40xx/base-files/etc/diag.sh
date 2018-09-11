@@ -1,14 +1,11 @@
 #!/bin/sh
 
-. /lib/functions.sh
 . /lib/functions/leds.sh
 
 boot="$(get_dt_led boot)"
 failsafe="$(get_dt_led failsafe)"
 running="$(get_dt_led running)"
 upgrade="$(get_dt_led upgrade)"
-
-board=$(board_name)
 
 set_state() {
 	status_led="$boot"
@@ -43,11 +40,6 @@ set_state() {
 			status_led="$running"
 			status_led_on
 		}
-		case "$board" in
-		netgear,wac510)
-		echo "1" > /sys/devices/platform/gpio-leds/leds/wac510:green:eth/brightness
-		;;
-		esac
 		;;
 	esac
 }
