@@ -47,8 +47,12 @@ DEVICE_VARS += NETGEAR_BOARD_ID NETGEAR_HW_ID
 
 define Build/NetgearMetadata
 	$(eval product=$(word 1,$(1)))
+	$(eval factory_image=$(word 2,$(2)))
+	lowercase_product=echo $(product) | tr '[:upper:]' '[:lower:]'
 	echo -n "$(product)" > $(BIN_DIR)/metadata.txt
 	echo -n "$(product)_V9.9.9.9" > $(BIN_DIR)/version
+	mv $(BIN_DIR)/$(factory_image) $(BIN_DIR)/$(lowercase_product)-ubifs-root.img
+	md5sum $(factory_image) > $(BIN_DIR)/$(lowercase_product)-ubifs-root.md5sum
 endef
 
 
