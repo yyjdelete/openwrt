@@ -8,6 +8,7 @@ boot() {
 case $(board_name) in
 	netgear,wac510)
 		echo "1" > /sys/devices/platform/gpio-leds/leds/wac510:green:eth/brightness
+		fw_setenv boot_cnt=0
 		;;
 esac
 }
