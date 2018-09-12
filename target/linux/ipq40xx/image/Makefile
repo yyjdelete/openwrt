@@ -50,7 +50,7 @@ define Build/NetgearMetadata
 	factory_image= find $(BIN_DIR) -name "*-factory*"
 	echo -n "$(product)" > $(BIN_DIR)/metadata.txt
 	echo -n "$(product)_V9.9.9.9" > $(BIN_DIR)/version
-	mv $(BIN_DIR)/$(factory_image) $(BIN_DIR)/$(product)-ubifs-root.img
+	mv $(factory_image) $(BIN_DIR)/$(product)-ubifs-root.img
 	md5sum $(factory_image) > $(BIN_DIR)/$(product)-ubifs-root.md5sum
 endef
 
