@@ -47,8 +47,8 @@ DEVICE_VARS += NETGEAR_BOARD_ID NETGEAR_HW_ID
 
 define Build/NetgearMetadata
 	$(eval product=$(word 1,$(1)))
-	echo -n "$(product)" > metadata.txt
-	echo -n "$(product)_V9.9.9.9" > version
+	echo -n "$(product)" > $(KDIR)/metadata.txt
+	echo -n "$(product)_V9.9.9.9" > $(KDIR)/version
 endef
 
 
