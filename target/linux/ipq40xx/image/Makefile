@@ -45,6 +45,11 @@ define Device/DniImage
 endef
 DEVICE_VARS += NETGEAR_BOARD_ID NETGEAR_HW_ID
 
+define Build/NetgearMetadata
+	$(eval product=$(word 1,$(1)))
+	echo -n "$(product)" >> $@
+endef
+
 
 define Device/8dev_jalapeno
 	$(call Device/FitImage)
@@ -157,6 +162,7 @@ define Device/netgear_wac510
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
 	DEVICE_TITLE := Netgear WAC510
+	IMAGE/nand-factory.ubi := append-ubi | NetgearMetadata WAC510
 	DEVICE_PACKAGES := ipq-wifi-netgear_wac510 uboot-envtools
 endef
 TARGET_DEVICES += netgear_wac510
