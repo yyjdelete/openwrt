@@ -164,7 +164,7 @@ define Device/netgear_wac510
 	PAGESIZE := 2048
 	DEVICE_TITLE := Netgear WAC510
 	IMAGES = nand-sysupgrade.bin factory.bin
-	IMAGE/factory.img := append-ubi | NetgearMetadata WAC510
+	IMAGE/factory.bin := append-ubi | NetgearMetadata WAC510
 	DEVICE_PACKAGES := ipq-wifi-netgear_wac510 uboot-envtools
 endef
 TARGET_DEVICES += netgear_wac510
