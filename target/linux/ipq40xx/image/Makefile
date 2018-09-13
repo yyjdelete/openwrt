@@ -51,7 +51,7 @@ define Build/NetgearMetadata
 	echo -n "$(product)" > $(BIN_DIR)/metadata.txt
 	echo -n "$(product)_V9.9.9.9" > $(BIN_DIR)/version
 	mv $(KDIR)/tmp/$(factory_image) $(BIN_DIR)/$(product)-ubifs-root.img
-	md5sum $(BIN_DIR)/$(product)-ubifs-root.img | echo -n > $(BIN_DIR)/$(product)-ubifs-root.md5sum
+	md5sum $(BIN_DIR)/$(product)-ubifs-root.img > $(BIN_DIR)/$(product)-ubifs-root.md5sum
 endef
 
 
