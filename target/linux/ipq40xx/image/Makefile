@@ -50,8 +50,8 @@ define Build/NetgearMetadata
 	$(eval factory_image=$(word 2,$(1)))
 	echo -n "$(product)" > $(BIN_DIR)/metadata.txt
 	echo -n "$(product)_V9.9.9.9" > $(BIN_DIR)/version
-	mv $(BIN_DIR)/$(factory_image) $(BIN_DIR)/$(product)-ubifs-root.img
-	md5sum $(BIN_DIR)/$(product)-ubifs-root.img | echo -n > $(BIN_DIR)/$(product)-ubifs-root.md5sum
+	/* mv $(BIN_DIR)/$(factory_image) $(BIN_DIR)/$(product)-ubifs-root.img
+	md5sum $(BIN_DIR)/$(product)-ubifs-root.img | echo -n > $(BIN_DIR)/$(product)-ubifs-root.md5sum */
 endef
 
 
@@ -166,7 +166,7 @@ define Device/netgear_wac510
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
 	DEVICE_TITLE := Netgear WAC510
-	FACTORY_IMAGE := $$(IMAGE_PREFIX)-squashfs-factory.bin.tmp
+	FACTORY_IMAGE := $$(IMAGE_PREFIX)-squashfs-factory.bin
 	IMAGES = nand-sysupgrade.bin factory.bin
 	IMAGE/factory.bin := append-ubi | NetgearMetadata WAC510 $$(FACTORY_IMAGE)
 	DEVICE_PACKAGES := ipq-wifi-netgear_wac510 uboot-envtools
