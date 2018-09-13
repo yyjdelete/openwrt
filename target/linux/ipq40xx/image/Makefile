@@ -48,10 +48,19 @@ DEVICE_VARS += NETGEAR_BOARD_ID NETGEAR_HW_ID
 define Build/NetgearMetadata
 	$(eval product=$(word 1,$(1)))
 	$(eval factory_image=$(word 2,$(1)))
-	echo -n "$(product)" > $(BIN_DIR)/metadata.txt
-	echo -n "$(product)_V9.9.9.9" > $(BIN_DIR)/version
-	mv $(KDIR)/tmp/$(factory_image) $(BIN_DIR)/$(product)-ubifs-root.img
-	md5sum $(BIN_DIR)/$(product)-ubifs-root.img > $(BIN_DIR)/$(product)-ubifs-root.md5sum
+	mkdir -p $@.netgear
+
+	echo -n "$(product)" > $@.netgear/metadata.txt
+	echo -n "$(product)_V9.9.9.9" > $@.netgear/version
+	$(CP) $(KDIR)/tmp/$(factory_image) $@.netgear/$(product)-ubifs-root.img
+	md5sum $@.netgear/$(product)-ubifs-root.img > $@.netgear/$(product)-ubifs-root.md5sum
+
+	$(TAR) -c \
+		--numeric-owner --owner=0 --group=0 --sort=name \
+		$(if $(SOURCE_DATE_EPOCH),--mtime="@$(SOURCE_DATE_EPOCH)") \
+		-C $@.netgear . | gzip -9nc > $@
+
+	rm -rf $@.netgear
 endef
 
 
