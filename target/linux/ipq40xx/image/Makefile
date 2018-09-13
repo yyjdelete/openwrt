@@ -52,8 +52,8 @@ define Build/NetgearMetadata
 
 	echo -n "$(product)" > $@.netgear/metadata.txt
 	echo -n "$(product)_V9.9.9.9" > $@.netgear/version
-	$(CP) $(KDIR)/tmp/$(factory_image) $@.netgear/$(product)-ubifs-root.img
-	md5sum $@.netgear/$(product)-ubifs-root.img > $@.netgear/$(product)-ubifs-root.md5sum
+	$(CP) $(KDIR)/tmp/$(factory_image) $@.netgear/wac5xx-ubifs-root.img
+	md5sum $@.netgear/$(product)-ubifs-root.img > $@.netgear/wac5xx-ubifs-root.md5sum
 
 	$(TAR) -c \
 		--numeric-owner --owner=0 --group=0 --sort=name \
