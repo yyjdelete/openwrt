@@ -55,7 +55,10 @@ define Build/NetgearMetadata
 	$(CP) $(KDIR)/tmp/$(factory_image) $@.netgear/wac5xx-ubifs-root.img
 	md5sum $@.netgear/wac5xx-ubifs-root.img > $@.netgear/wac5xx-ubifs-root.md5sum
 
-	$(TAR) -cvf $@ $@.netgear
+	$(TAR) -c \
+		--numeric-owner --owner=0 --group=0 --sort=name \
+		$(if $(SOURCE_DATE_EPOCH),--mtime="@$(SOURCE_DATE_EPOCH)") \
+	-C $@.senao . | > $@
 
 	rm -rf $@.netgear
 endef
