@@ -167,7 +167,7 @@ define Device/netgear_wac510
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
 	DEVICE_TITLE := Netgear WAC510
-	FACTORY_IMAGE = $$(KERNEL_INITRAMFS_PREFIX)-factory.bin
+	FACTORY_IMAGE := $$(KERNEL_INITRAMFS_PREFIX)-factory.bin
 	IMAGES = nand-sysupgrade.bin factory.bin
 	IMAGE/factory.bin := append-ubi | NetgearMetadata WAC510 $$(FACTORY_IMAGE)
 	DEVICE_PACKAGES := ipq-wifi-netgear_wac510 uboot-envtools
