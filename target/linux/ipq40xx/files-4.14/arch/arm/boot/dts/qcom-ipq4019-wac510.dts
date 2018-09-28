@@ -23,10 +23,6 @@
 / {
 	model = "Netgear WAC510";
 	compatible = "netgear,wac510", "qcom,ipq4019";
-	
-	chosen {
-		bootargs = "root=mtd:ubi_rootfs rootfstype=squashfs mtdparts=spi0.1:56m(rootfs),56m(rootfs_1),15m(var_config),768k(Oops_log) rootwait";
-	};
 
 	soc {
 		mdio@90000 {
