@@ -138,6 +138,7 @@ case "$FIRMWARE" in
 		# OEM assigns 4 sequential MACs
 		ath10kcal_patch_mac_crc $(macaddr_setbit_la $(macaddr_add "$(cat /sys/class/net/eth0/address)" 4))
 		;;
+	netgear,orbi-pro |\
 	openmesh,a62)
 		ath10kcal_extract "0:ART" 0x9000 0x2f20
 		;;

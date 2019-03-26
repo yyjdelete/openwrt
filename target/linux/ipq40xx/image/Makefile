@@ -318,7 +318,7 @@ define Device/netgear_orbipro
 	$(call Device/DniImage)
 	DEVICE_DTS := qcom-ipq4019-orbi-pro
 	BLOCKSIZE := 256k
-	NETGEAR_BOARD_ID := SRS60
+	NETGEAR_BOARD_ID := SRR60
 	NETGEAR_HW_ID := 29765352+0+4096+512+2x2+2x2+4x4
 	KERNEL_SIZE := 3932160
 	ROOTFS_SIZE := 27787264
