@@ -1,0 +1,367 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+#include "qcom-ipq4019.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/soc/qcom,tcsr.h>
+
+/ {
+	model = "Netgear Orbi Pro";
+	compatible = "netgear,orbi-pro";
+
+	chosen {
+		bootargs = "root=/dev/mmcblk0p25 rootfstype=squashfs,ext4 rootwait clk_ignore_unused";
+	};
+
+	aliases {
+		sdhc1 = &sdhc_1;
+		led-boot = &white;
+		led-failsafe = &red;
+		led-running = &green;
+		led-upgrade = &blue;
+	};
+
+	soc {
+		rng@22000 {
+			status = "okay";
+		};
+
+		mdio@90000 {
+			status = "okay";
+			pinctrl-0 = <&mdio_pins>;
+			pinctrl-names = "default";
+		};
+
+		ess-psgmii@98000 {
+			status = "okay";
+		};
+
+		tcsr@1949000 {
+			compatible = "qcom,tcsr";
+			reg = <0x1949000 0x100>;
+			qcom,wifi_glb_cfg = <TCSR_WIFI_GLB_CFG>;
+		};
+
+		tcsr@194b000 {
+			compatible = "qcom,tcsr";
+			reg = <0x194b000 0x100>;
+			qcom,usb-hsphy-mode-select = <TCSR_USB_HSPHY_HOST_MODE>;
+		};
+
+		ess_tcsr@1953000 {
+			compatible = "qcom,tcsr";
+			reg = <0x1953000 0x1000>;
+			qcom,ess-interface-select = <TCSR_ESS_PSGMII>;
+		};
+
+		tcsr@1957000 {
+			compatible = "qcom,tcsr";
+			reg = <0x1957000 0x100>;
+			qcom,wifi_noc_memtype_m0_m2 = <TCSR_WIFI_NOC_MEMTYPE_M0_M2>;
+		};
+
+		usb2@60f8800 {
+			status = "okay";
+		};
+
+		usb3@8af8800 {
+			status = "okay";
+		};
+
+		crypto@8e3a000 {
+			status = "okay";
+		};
+
+		watchdog@b017000 {
+			status = "okay";
+		};
+
+		ess-switch@c000000 {
+			status = "okay";
+		};
+
+		edma@c080000 {
+			status = "okay";
+		};
+
+		vccq_sd0: regulator@1948000 {
+			status = "okay";
+		};
+
+		sdhc_1: sdhci@7824900{
+			status = "okay";
+			qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
+			qcom,clk-rates = <400000 25000000
+							  50000000 100000000
+							  192000000 384000000>;
+			vqmmc-supply = <&vccq_sd0>;
+			pinctrl-0 = <&sd_0_pins>;
+			pinctrl-names = "default";
+			cd-gpios = <&tlmm 22 0x1>;
+			sd-ldo-gpios = <&tlmm 33 0x1>;
+		};
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		reset {
+			label = "reset";
+			gpios = <&tlmm 45 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_RESTART >;
+		};
+
+		wps {
+			label = "wps";
+			gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_WPS_BUTTON>;
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		white: white {
+				label = "orbi:white:all";
+				gpios = <&tlmm 60 GPIO_ACTIVE_HIGH>;
+		};
+
+		blue: blue {
+			label = "orbi:blue:all";
+			gpios = <&tlmm 57 GPIO_ACTIVE_HIGH>;
+		};
+
+		red: red {
+			label = "orbi:red:all";
+			gpios = <&tlmm 54 GPIO_ACTIVE_HIGH>;
+		};
+
+		green: green {
+			label = "orbi:green:all";
+			gpios = <&tlmm 53 GPIO_ACTIVE_HIGH>;
+		};
+
+		power-green {
+			label = "orbi:power:green";
+			gpios = <&tlmm 63 GPIO_ACTIVE_HIGH>;
+		};
+
+		power-red {
+			label = "orbi:power:red";
+			gpios = <&tlmm 64 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&blsp1_uart1 {
+	pinctrl-0 = <&serial_pins>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&cryptobam {
+	status = "okay";
+};
+
+&wifi0 {
+	status = "okay";
+	qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro-SRK60";
+};
+
+&wifi1 {
+	status = "okay";
+	qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro-SRK60";
+};
+
+
+&blsp_dma {
+	status = "okay";
+};
+
+&tlmm {
+	serial_pins: serial_pinmux {
+		mux {
+			pins = "gpio16", "gpio17";
+			function = "blsp_uart0";
+			bias-disable;
+		};
+
+		pulldowns {
+			pins = "gpio16";
+			bias-pull-down;
+		};
+	};
+
+	i2c_0_pins: i2c_0_pinmux {
+		pinmux {
+			function = "blsp_i2c0";
+			pins = "gpio58", "gpio59";
+			bias-disable;
+		};
+		pinconf {
+			pins = "gpio58", "gpio59";
+			drive-strength = <16>;
+			bias-disable;
+		};
+	};
+
+	spi_0_pins: spi_0_pinmux {
+		mux {
+			pins = "gpio12", "gpio13", "gpio14", "gpio15";
+			function = "blsp_spi0";
+			bias-disable;
+		};
+	};
+
+	sd_0_pins: sd_0_pinmux {
+		sd0 {
+			pins = "gpio23";
+			function = "sdio";
+			drive-strength = <10>;
+		};
+		sd1 {
+			pins = "gpio24";
+			function = "sdio";
+			drive-strength = <10>;
+		};
+		sd2 {
+			pins = "gpio25";
+			function = "sdio";
+			drive-strength = <10>;
+		};
+		sd3 {
+			pins = "gpio26";
+			function = "sdio";
+			drive-strength = <10>;
+		};
+		sdclk {
+			pins = "gpio27";
+			function = "sdio";
+			drive-strength = <16>;
+		};
+		sdcmd {
+			pins = "gpio28";
+			function = "sdio";
+			drive-strength = <10>;
+		};
+		sd4 {
+			pins = "gpio29";
+			function = "sdio";
+			drive-strength = <10>;
+		};
+		sd5 {
+			pins = "gpio30";
+			function = "sdio";
+			drive-strength = <10>;
+		};
+		sd6 {
+			pins = "gpio31";
+			function = "sdio";
+			drive-strength = <10>;
+		};
+		sd7 {
+			pins = "gpio32";
+			function = "sdio";
+			drive-strength = <10>;
+			bias-disable;
+		};
+	};
+
+	mdio_pins: mdio_pinmux {
+		mux_1 {
+			pins = "gpio6";
+			function = "mdio";
+			bias-pull-up;
+		};
+		mux_2 {
+			pins = "gpio7";
+			function = "mdc";
+			bias-pull-up;
+		};
+	};
+};
+
+&blsp1_spi1 { /* BLSP1 QUP1 */
+	pinctrl-0 = <&spi_0_pins>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&blsp1_i2c3 {
+	pinctrl-0 = <&i2c_0_pins>;
+	pinctrl-names = "default";
+
+	status = "okay";
+	
+	tlc59208f@27 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "ti,tlc59108";
+		reg = <0x27>;
+		
+		led0@0 {
+			label = "orbi:led0:rgb";
+			reg = <0x0>;
+		};
+		led1@1 {
+			label = "orbi:led1:rgb";
+			reg = <0x1>;
+		};
+		led2@2 {
+			label = "orbi:led2:rgb";
+			reg = <0x2>;
+		};
+		led3@3 {
+			label = "orbi:led3:rgb";
+			reg = <0x3>;
+		};
+		led4@4 {
+			label = "orbi:led4:rgb";
+			reg = <0x4>;
+		};
+		led5@5 {
+			label = "orbi:led5:rgb";
+			reg = <0x5>;
+		};
+		led6@6 {
+			label = "orbi:led6:rgb";
+			reg = <0x6>;
+		};
+		led7@7 {
+			label = "orbi:led7:rgb";
+			reg = <0x7>;
+		};
+	};
+};
+
+&usb3_ss_phy {
+	status = "okay";
+};
+
+&usb3_hs_phy {
+	status = "okay";
+};
+
+&usb2_hs_phy {
+	status = "okay";
+};
+
+&pcie0 {
+	status = "okay";
+	perst-gpio = <&tlmm 38 GPIO_ACTIVE_LOW>;
+	wake-gpio = <&tlmm 40 GPIO_ACTIVE_LOW>;
+
+	bridge@0,0 {
+		reg = <0x00000000 0 0 0 0>;
+		#address-cells = <3>;
+		#size-cells = <2>;
+		ranges;
+
+		wifi2: wifi@0,0 {
+			compatible = "qcom,ath10k";
+			status = "okay";
+			reg = <0x00010000 0 0 0 0>;
+			//qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro-SRK60";
+		};
+	};
+};
