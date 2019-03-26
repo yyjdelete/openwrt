@@ -122,8 +122,8 @@
 		compatible = "gpio-leds";
 
 		white: white {
-				label = "orbi:white:all";
-				gpios = <&tlmm 60 GPIO_ACTIVE_HIGH>;
+			label = "orbi:white:all";
+			gpios = <&tlmm 60 GPIO_ACTIVE_HIGH>;
 		};
 
 		blue: blue {
@@ -144,11 +144,14 @@
 		power-green {
 			label = "orbi:power:green";
 			gpios = <&tlmm 63 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
 		};
 
 		power-red {
 			label = "orbi:power:red";
 			gpios = <&tlmm 64 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+			panic-indicator;
 		};
 	};
 };
@@ -361,7 +364,7 @@
 			compatible = "qcom,ath10k";
 			status = "okay";
 			reg = <0x00010000 0 0 0 0>;
-			//qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro-SRK60";
+			qcom,ath10k-calibration-variant = "Netgear-Orbi-Pro-SRK60";
 		};
 	};
 };
