@@ -280,7 +280,7 @@ define Device/netgear_ex6150v2
 endef
 TARGET_DEVICES += netgear_ex6150v2
 
-define Device/netgear_orbipro
+define Device/netgear_orbi-pro
 	$(call Device/DniImage)
 	DEVICE_DTS := qcom-ipq4019-orbi-pro
 	BLOCKSIZE := 256k
@@ -295,9 +295,9 @@ define Device/netgear_orbipro
 	IMAGE/factory.img := append-kernel | pad-offset 128k 64 | append-uImage-fakehdr filesystem | pad-to $$$$(KERNEL_SIZE) | append-rootfs | pad-rootfs | pad-to $$$${ROOTFS_SIZE} | netgear-dni
 	IMAGE/sysupgrade.bin := append-kernel | pad-offset 128k 64 | append-uImage-fakehdr filesystem | pad-to $$$$(KERNEL_SIZE) | append-rootfs | pad-rootfs | append-metadata
 	IMAGE/sysupgrade.bin/squashfs := append-rootfs | pad-to $$$${BLOCKSIZE} | sysupgrade-tar rootfs=$$$$@ | append-metadata
-	DEVICE_PACKAGES := ath10k-firmware-qca9984 e2fsprogs kmod-fs-ext4 losetup
+	DEVICE_PACKAGES := ath10k-firmware-qca9984-ct qca-9984-bdf-netgear_orbipro e2fsprogs kmod-fs-ext4 losetup
 endef
-TARGET_DEVICES += netgear_orbipro
+TARGET_DEVICES += netgear_orbi-pro
 
 define Device/openmesh_a42
 	$(call Device/FitImageLzma)
