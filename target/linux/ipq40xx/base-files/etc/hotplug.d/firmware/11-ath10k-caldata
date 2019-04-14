@@ -174,7 +174,6 @@ case "$FIRMWARE" in
 		;;
 	compex,wpj428 |\
 	engenius,eap1300 |\
-	netgear,orbi-pro |\
 	openmesh,a42 |\
 	openmesh,a62 |\
 	qxwlan,e2600ac-c1 |\
@@ -198,6 +197,10 @@ case "$FIRMWARE" in
 	netgear,ex6150v2)
 		ath10kcal_extract "ART" 0x1000 0x2f20
 		ath10kcal_patch_mac_crc $(mtd_get_mac_binary dnidata 0x0)
+		;;
+	netgear,orbi-pro)
+		ath10kcal_extract "0:ART" 4096 12064
+		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address) +1)
 		;;
 	zyxel,nbg6617 |\
 	zyxel,wre6606)
@@ -236,7 +239,6 @@ case "$FIRMWARE" in
 		;;
 	compex,wpj428 |\
 	engenius,eap1300 |\
-	netgear,orbi-pro |\
 	openmesh,a42 |\
 	openmesh,a62 |\
 	qxwlan,e2600ac-c1 |\
@@ -260,6 +262,10 @@ case "$FIRMWARE" in
 	netgear,ex6150v2)
 		ath10kcal_extract "ART" 0x5000 0x2f20
 		ath10kcal_patch_mac_crc $(mtd_get_mac_binary dnidata 0xc)
+		;;
+	netgear,orbi-pro)
+		ath10kcal_extract "0:ART" 20480 12064
+		ath10kcal_patch_mac_crc $(macaddr_add $(cat /sys/class/net/eth0/address) +2)
 		;;
 	zyxel,nbg6617 |\
 	zyxel,wre6606)
