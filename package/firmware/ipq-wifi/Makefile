@@ -18,7 +18,7 @@ endef
 # Please send a mail with your device-specific board files upstream.
 # You can find instructions and examples on the linux-wireless wiki:
 # <https://wireless.wiki.kernel.org/en/users/drivers/ath10k/boardfiles>
-ALLWIFIBOARDS:=alfa-network_ap120c-ac asus_map-ac2200 avm_fritzbox-7530 avm_fritzrepeater-3000 engenius_eap1300 engenius_ens620ext linksys_ea6350v3 qxwlan_e2600ac
+ALLWIFIBOARDS:=alfa-network_ap120c-ac asus_map-ac2200 avm_fritzbox-7530 avm_fritzrepeater-3000 engenius_eap1300 engenius_ens620ext linksys_ea6350v3 netgear_orbipro qxwlan_e2600ac
 ALLWIFIPACKAGES:=$(foreach BOARD,$(ALLWIFIBOARDS),ipq-wifi-$(BOARD))
 
 define Package/ipq-wifi-default
@@ -60,6 +60,7 @@ $(eval $(call generate-ipq-wifi-package,engenius_ens620ext,board-engenius_ens620
 $(eval $(call generate-ipq-wifi-package,avm_fritzbox-7530,board-avm_fritzbox-7530.bin,AVM FRITZ!Box 7530))
 $(eval $(call generate-ipq-wifi-package,avm_fritzrepeater-3000,board-avm_fritzrepeater-3000.bin,AVM FRITZ!Repeater 3000))
 $(eval $(call generate-ipq-wifi-package,linksys_ea6350v3,board-linksys_ea6350v3.bin,Linksys EA6350v3))
+$(eval $(call generate-ipq-wifi-package,netgear_orbipro,board-netgear_orbipro.bin,Netgear Orbi Pro))
 $(eval $(call generate-ipq-wifi-package,qxwlan_e2600ac,board-qxwlan-e2600ac.bin,Qxwlan E2600AC))
 
 $(foreach PACKAGE,$(ALLWIFIPACKAGES),$(eval $(call BuildPackage,$(PACKAGE))))

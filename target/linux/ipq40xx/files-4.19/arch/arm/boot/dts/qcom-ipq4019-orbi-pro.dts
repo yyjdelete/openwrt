@@ -15,10 +15,10 @@
 
 	aliases {
 		sdhc1 = &sdhc_1;
-		/*led-boot = &white;
+		led-boot = &white;
 		led-failsafe = &red;
 		led-running = &green;
-		led-upgrade = &blue;*/
+		led-upgrade = &blue;
 		ethernet0 = &gmac;
 	};
 

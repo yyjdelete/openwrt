@@ -74,6 +74,9 @@ platform_do_upgrade() {
 		CI_KERNPART="part.safe"
 		nand_do_upgrade "$1"
 		;;
+	netgear,orbi-pro)
+		netgear_do_upgrade "$1"
+		;;
 	zyxel,nbg6617)
 		zyxel_do_upgrade "$1"
 		;;
