@@ -1,6 +1,6 @@
 --- a/drivers/net/phy/phy.c
 +++ b/drivers/net/phy/phy.c
-@@ -982,13 +982,15 @@ EXPORT_SYMBOL(phy_start);
+@@ -915,13 +915,15 @@ EXPORT_SYMBOL(phy_start);
  
  static void phy_link_up(struct phy_device *phydev)
  {

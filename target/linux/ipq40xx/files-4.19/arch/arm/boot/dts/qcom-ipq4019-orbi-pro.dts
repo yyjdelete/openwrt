@@ -6,7 +6,7 @@
 #include <dt-bindings/soc/qcom,tcsr.h>
 
 / {
-	model = "Netgear Orbi Pro";
+	model = "Netgear Orbi Pro SRK60";
 	compatible = "netgear,orbi-pro";
 
 	chosen {
@@ -14,7 +14,6 @@
 	};
 
 	aliases {
-		sdhc1 = &sdhc_1;
 		led-boot = &white;
 		led-failsafe = &red;
 		led-running = &green;
@@ -24,6 +23,21 @@
 
 	soc {
 		rng@22000 {
+			status = "okay";
+		};
+
+		counter@4a1000 {
+			compatible = "qcom,qca-gcnt";
+			reg = <0x4a1000 0x4>;
+		};
+
+		vqmmc: regulator@1948000 {
+			compatible = "qcom,ipq40xx-vqmmc-regulator";
+			reg = <0x01948000 0x4>;
+			regulator-name = "vqmmc";
+			regulator-min-microvolt = <1500000>;
+			regulator-max-microvolt = <3000000>;
+			regulator-always-on;
 			status = "okay";
 		};
 
@@ -59,23 +73,6 @@
 
 		watchdog@b017000 {
 			status = "okay";
-		};
-
-		vccq_sd0: regulator@1948000 {
-			status = "okay";
-		};
-
-		sdhc_1: sdhci@7824900{
-			status = "okay";
-			qcom,bus-speed-mode = "HS200_1p8v", "DDR_1p8v";
-			qcom,clk-rates = <400000 25000000
-							  50000000 100000000
-							  192000000 384000000>;
-			vqmmc-supply = <&vccq_sd0>;
-			pinctrl-0 = <&sd_0_pins>;
-			pinctrl-names = "default";
-			cd-gpios = <&tlmm 22 0x1>;
-			sd-ldo-gpios = <&tlmm 33 0x1>;
 		};
 	};
 
@@ -193,55 +190,23 @@
 		};
 	};
 
-	sd_0_pins: sd_0_pinmux {
-		sd0 {
-			pins = "gpio23";
+	sd_pins: sd_pins {
+		pinmux {
 			function = "sdio";
+			pins = "gpio23", "gpio24", "gpio25", "gpio26",
+				"gpio28", "gpio29", "gpio30", "gpio31";
 			drive-strength = <10>;
 		};
-		sd1 {
-			pins = "gpio24";
+
+		pinmux_sd_clk {
 			function = "sdio";
-			drive-strength = <10>;
-		};
-		sd2 {
-			pins = "gpio25";
-			function = "sdio";
-			drive-strength = <10>;
-		};
-		sd3 {
-			pins = "gpio26";
-			function = "sdio";
-			drive-strength = <10>;
-		};
-		sdclk {
 			pins = "gpio27";
-			function = "sdio";
 			drive-strength = <16>;
 		};
-		sdcmd {
-			pins = "gpio28";
+
+		pinmux_sd7 {
 			function = "sdio";
-			drive-strength = <10>;
-		};
-		sd4 {
-			pins = "gpio29";
-			function = "sdio";
-			drive-strength = <10>;
-		};
-		sd5 {
-			pins = "gpio30";
-			function = "sdio";
-			drive-strength = <10>;
-		};
-		sd6 {
-			pins = "gpio31";
-			function = "sdio";
-			drive-strength = <10>;
-		};
-		sd7 {
 			pins = "gpio32";
-			function = "sdio";
 			drive-strength = <10>;
 			bias-disable;
 		};
@@ -381,3 +346,11 @@
 };
 
 /delete-node/ &essport5;
+
+&sdhci {
+	pinctrl-0 = <&sd_pins>;
+	pinctrl-names = "default";
+	cd-gpios = <&tlmm 22 0x1>;
+	vqmmc-supply = <&vqmmc>;
+	status = "okay";
+};

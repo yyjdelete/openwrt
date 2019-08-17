@@ -322,14 +322,15 @@ define Device/netgear_orbi-pro
 	NETGEAR_HW_ID := 29765352+0+4096+512+2x2+2x2+4x4
 	KERNEL_SIZE := 3932160
 	ROOTFS_SIZE := 27787264
-	DEVICE_TITLE := Netgear Orbi Pro
+	DEVICE_VENDOR := Netgear
+	DEVICE_MODEL := Orbi Pro SRK60
 	IMAGES := sysupgrade.bin kernel.bin rootfs.bin factory.img
 	IMAGE/rootfs.bin := append-rootfs | pad-rootfs | pad-to $$$${ROOTFS_SIZE}
 	IMAGE/kernel.bin := append-kernel
 	IMAGE/factory.img := append-kernel | pad-offset 128k 64 | append-uImage-fakehdr filesystem | pad-to $$$$(KERNEL_SIZE) | append-rootfs | pad-rootfs | pad-to $$$${ROOTFS_SIZE} | netgear-dni
 	IMAGE/sysupgrade.bin := append-kernel | pad-offset 128k 64 | append-uImage-fakehdr filesystem | pad-to $$$$(KERNEL_SIZE) | append-rootfs | pad-rootfs | append-metadata
 	IMAGE/sysupgrade.bin/squashfs := append-rootfs | pad-to $$$${BLOCKSIZE} | sysupgrade-tar rootfs=$$$$@ | append-metadata
-	DEVICE_PACKAGES := ath10k-firmware-qca9984-ct qca-9984-bdf-netgear_orbipro e2fsprogs kmod-fs-ext4 losetup
+	DEVICE_PACKAGES := ath10k-firmware-qca9984-ct e2fsprogs kmod-fs-ext4 losetup
 endef
 TARGET_DEVICES += netgear_orbi-pro
 
