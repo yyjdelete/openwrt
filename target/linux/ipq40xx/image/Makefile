@@ -314,16 +314,17 @@ define Device/netgear_ex6150v2
 endef
 TARGET_DEVICES += netgear_ex6150v2
 
-define Device/netgear_orbi-pro
+define Device/netgear_orbi-pro-srr60
 	$(call Device/DniImage)
-	DEVICE_DTS := qcom-ipq4019-orbi-pro
+	DEVICE_DTS := qcom-ipq4019-orbi-pro-srr60
 	BLOCKSIZE := 256k
 	NETGEAR_BOARD_ID := SRR60
 	NETGEAR_HW_ID := 29765352+0+4096+512+2x2+2x2+4x4
 	KERNEL_SIZE := 3932160
 	ROOTFS_SIZE := 27787264
 	DEVICE_VENDOR := Netgear
-	DEVICE_MODEL := Orbi Pro SRK60
+	DEVICE_MODEL := Orbi Pro
+	DEVICE_VARIANT := SRR60
 	IMAGES := sysupgrade.bin kernel.bin rootfs.bin factory.img
 	IMAGE/rootfs.bin := append-rootfs | pad-rootfs | pad-to $$$${ROOTFS_SIZE}
 	IMAGE/kernel.bin := append-kernel
@@ -331,8 +332,18 @@ define Device/netgear_orbi-pro
 	IMAGE/sysupgrade.bin := append-kernel | pad-offset 128k 64 | append-uImage-fakehdr filesystem | pad-to $$$$(KERNEL_SIZE) | append-rootfs | pad-rootfs | append-metadata
 	IMAGE/sysupgrade.bin/squashfs := append-rootfs | pad-to $$$${BLOCKSIZE} | sysupgrade-tar rootfs=$$$$@ | append-metadata
 	DEVICE_PACKAGES := ath10k-firmware-qca9984-ct e2fsprogs kmod-fs-ext4 losetup
+	SUPPORTED_DEVICES += netgear,orbi-pro
 endef
-TARGET_DEVICES += netgear_orbi-pro
+TARGET_DEVICES += netgear_orbi-pro-srr60
+
+define Device/netgear_orbi-pro-srs60
+	$(call Device/netgear_orbi-pro-srr60)
+	DEVICE_DTS := qcom-ipq4019-orbi-pro-srs60
+	NETGEAR_BOARD_ID := SRS60
+	DEVICE_VARIANT := SRS60
+	SUPPORTED_DEVICES += netgear,orbi-pro
+endef
+TARGET_DEVICES += netgear_orbi-pro-srs60
 
 define Device/openmesh_a42
 	$(call Device/FitImageLzma)

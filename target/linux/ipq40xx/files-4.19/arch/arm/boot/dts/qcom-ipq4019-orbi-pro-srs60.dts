@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+#include "qcom-ipq4019-orbi-pro.dtsi"
+
+/ {
+	model = "Netgear Orbi Pro SRS60";
+	compatible = "netgear,orbi-pro-srs60";
+};

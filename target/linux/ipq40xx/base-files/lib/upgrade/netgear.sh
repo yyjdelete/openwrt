@@ -78,7 +78,8 @@ netgear_do_upgrade() {
 
 	[ -b "${rootfs}" ] || return 1
 	case "$board" in
-	netgear,orbi-pro)
+	netgear,orbi-pro-srr60|\
+	netgear,orbi-pro-srs60)
 
 		case "$rootfs" in
 			"/dev/mmcblk0p20")
