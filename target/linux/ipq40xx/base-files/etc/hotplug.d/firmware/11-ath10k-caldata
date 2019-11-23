@@ -99,8 +99,8 @@ case "$FIRMWARE" in
 		ath10k_patch_mac $(mtd_get_mac_binary dnidata 0x0)
 		;;
 	netgear,wac510)
-		ath10kcal_extract "0:ART" 0x1000 0x2f20
-		ath10kcal_patch_mac_crc $(mtd_get_mac_binary 0:MANUDATA 0x6)
+		caldata_extract "0:ART" 0x1000 0x2f20
+		ath10k_patch_mac $(mtd_get_mac_binary 0:MANUDATA 0x6)
 		;;
 	zyxel,nbg6617 |\
 	zyxel,wre6606)
@@ -167,8 +167,8 @@ case "$FIRMWARE" in
 		ath10k_patch_mac $(mtd_get_mac_binary dnidata 0xc)
 		;;
 	netgear,wac510)
-		ath10kcal_extract "0:ART" 0x5000 0x2f20
-		ath10kcal_patch_mac_crc $(mtd_get_mac_binary 0:MANUDATA 0x12)
+		caldata_extract "0:ART" 0x5000 0x2f20
+		ath10k_patch_mac $(mtd_get_mac_binary 0:MANUDATA 0x12)
 		;;
 	zyxel,nbg6617 |\
 	zyxel,wre6606)
