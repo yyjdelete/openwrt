@@ -528,7 +528,7 @@ define Device/MikrotikNOR
 	IMAGES = sysupgrade.bin
 	IMAGE/sysupgrade.bin := append-kernel | kernel2minor -s 1024 | pad-to $$$$(BLOCKSIZE) | \
 	append-rootfs | pad-rootfs | append-metadata | check-size $$$$(IMAGE_SIZE)
-	DEVICE_PACKAGES := rbcfg
+	DEVICE_PACKAGES := rbcfg rbextract
 endef
 
 define Device/mikrotik_hap-ac2
