@@ -64,7 +64,7 @@ caldata_from_file() {
 
 	[ -n "$target" ] || target=/lib/firmware/$FIRMWARE
 
-	dd if=$source of=$target iflag=skip_bytes bs=$count skip=$offset count=1 2>/dev/null || \
+	cat $source | dd of=$target iflag=skip_bytes bs=$count skip=$offset count=1 2>/dev/null || \
 		caldata_die "failed to extract calibration data from $source"
 }
 
@@ -74,12 +74,12 @@ caldata_sysfsload_from_file() {
 	local count=$(($3))
 
 	# test extract to /dev/null first
-	dd if=$source of=/dev/null iflag=skip_bytes bs=$count skip=$offset count=1 2>/dev/null || \
+	cat $source | dd of=/dev/null iflag=skip_bytes bs=$count skip=$offset count=1 2>/dev/null || \
 		caldata_die "failed to extract calibration data from $source"
 
 	# can't fail now
 	echo 1 > /sys/$DEVPATH/loading
-	dd if=$source of=/sys/$DEVPATH/data iflag=skip_bytes bs=$count skip=$offset count=1 2>/dev/null
+	cat $source | dd of=/sys/$DEVPATH/data iflag=skip_bytes bs=$count skip=$offset count=1 2>/dev/null
 	echo 0 > /sys/$DEVPATH/loading
 }
 
