@@ -108,6 +108,7 @@ ipq40xx_setup_macs()
 	local lan_mac=""
 	local wan_mac=""
 	local label_mac=""
+	local mikrotik_mac_base="$(cat /sys/firmware/mikrotik/hard_config/mac_base)"
 
 	case "$board" in
 	8dev,habanero-dvk)
@@ -143,8 +144,8 @@ ipq40xx_setup_macs()
 		lan_mac=$(macaddr_add "$wan_mac" 1)
 		;;
 	mikrotik,hap-ac2)
-		wan_mac=$(mtd_get_mac_binary hard_config 0x10)
-		lan_mac=$(mtd_get_mac_binary hard_config 0x10)+1
+		wan_mac="$mikrotik_mac_base"
+		lan_mac=$(macaddr_add $mikrotik_mac_base 1)
 		label_mac="$wan_mac"
 		;;
 	esac

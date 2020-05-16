@@ -173,7 +173,7 @@
 		spi-max-frequency = <24000000>;
 
 		partitions {
-			compatible = "fixed-partitions";
+			compatible = "mikrotik,routerboot-partitions";
 			#address-cells = <1>;
 			#size-cells = <1>;
 
@@ -183,31 +183,23 @@
 				read-only;
 			};
 
-			partition1@8e000 {
-				label = "hard_config";
-				reg = <0x8e000 0x1000>;
+			hard_config: hard_config {
+				read-only;
 			};
 
 			partition2@90000 {
-				label = "dts_config";
+				label = "DTS";
 				reg = <0x90000 0x10000>;
 				read-only;
 			};
 
-			partition3@bd000 {
-				label = "soft_config";
-				reg = <0xbd000 0x1000>;
+			soft_config {
 			};
 
 			partition4@1000000 {
 				compatible = "mikrotik,minor";
 				label = "firmware";
 				reg = <0x100000 0xf00000>;
-			};
-
-			partition5@0 {
-				label = "whole_flash";
-				reg = <0x0 0x1000000>;
 			};
 		};
 	};
@@ -237,10 +229,8 @@
 
 &wifi0 {
 	status = "okay";
-	//qcom,ath10k-calibration-variant = "8devices-Jalapeno";
 };
 
 &wifi1 {
 	status = "okay";
-	//qcom,ath10k-calibration-variant = "8devices-Jalapeno";
 };
