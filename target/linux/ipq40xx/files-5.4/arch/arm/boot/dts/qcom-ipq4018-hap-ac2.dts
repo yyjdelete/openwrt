@@ -187,9 +187,7 @@
 				read-only;
 			};
 
-			partition2@90000 {
-				label = "DTS";
-				reg = <0x90000 0x10000>;
+			dtb_config {
 				read-only;
 			};
 

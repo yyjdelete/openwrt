@@ -5,6 +5,7 @@
 . /lib/functions/caldata.sh
 
 mikrotik_wlan_data="/sys/firmware/mikrotik/hard_config/wlan_data"
+mikrotik_mac_base="/sys/firmware/mikrotik/hard_config/mac_base"
 
 board=$(board_name)
 
@@ -118,6 +119,7 @@ case "$FIRMWARE" in
 		;;
 	mikrotik,hap-ac2)
 		caldata_sysfsload_from_file $mikrotik_wlan_data 0x0 0x2f20
+		ath10k_patch_mac $(macaddr_add $mikrotik_mac_base 7)
 		;;
 	netgear,ex6100v2 |\
 	netgear,ex6150v2)
@@ -205,6 +207,7 @@ case "$FIRMWARE" in
 		;;
 	mikrotik,hap-ac2)
 		caldata_sysfsload_from_file $mikrotik_wlan_data 0x8000 0x2f20
+		ath10k_patch_mac $(macaddr_add $mikrotik_mac_base 7)
 		;;
 	netgear,ex6100v2 |\
 	netgear,ex6150v2)
