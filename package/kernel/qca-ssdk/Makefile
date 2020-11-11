@@ -63,7 +63,7 @@ MAKE_FLAGS+= TOOL_PATH=$(TOOLCHAIN_BIN_PATH) \
                 ARCH=$(LINUX_KARCH) \
 		TARGET_SUFFIX=$(CONFIG_TARGET_SUFFIX) \
 		GCC_VERSION=$(GCC_VERSION) \
-		OS_VER=5_9
+		SWCONFIG_FEATURE=disable \
 		CFLAGS=-I$(STAGING_DIR)/usr/include
 
 ifdef CONFIG_TARGET_NAME
@@ -94,9 +94,9 @@ endif
     MAKE_FLAGS+= PTP_FEATURE=disable
 endif
 
-ifneq (, $(findstring $(subtarget), ipq50xx ipq50xx_64))
-	MAKE_FLAGS+= RUMI_FEATURE=enable
-endif
+# ifneq (, $(findstring $(subtarget), ipq50xx ipq50xx_64))
+# 	MAKE_FLAGS+= RUMI_FEATURE=enable
+# endif
 
 ifeq ($(CONFIG_TARGET_ipq806x_QSDK_Standard),)
     MAKE_FLAGS+= HK_CHIP=enable

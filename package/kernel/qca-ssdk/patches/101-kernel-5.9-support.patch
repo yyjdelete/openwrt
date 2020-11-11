@@ -1,3 +1,26 @@
+--- a/config
++++ b/config
+@@ -22,6 +22,10 @@ ifeq ($(KVER),$(filter 5.4%,$(KVER)))
+ OS_VER=5_4
+ endif
+
++ifeq ($(KVER),$(filter 5.9%,$(KVER)))
++OS_VER=5_9
++endif
++
+ ifeq ($(KVER), 3.4.0)
+ OS_VER=3_4
+ endif
+@@ -123,7 +127,7 @@ endif
+ endif
+
+ ifeq ($(ARCH), arm64)
+-ifeq ($(KVER),$(filter 4.1% 4.4% 4.9% 5.4%,$(KVER)))
+-  CPU_CFLAG=  -DMODULE -Os -pipe -march=armv8-a -mcpu=cortex-a53+crypto -fno-caller-saves -fno-strict-aliasing -Werror -fno-common -Wno-format-security -Wno-pointer-sign -Wno-unused-but-set-variable -Wno-error=unused-result -mcmodel=large
++ifeq ($(KVER),$(filter 4.1% 4.4% 4.9% 5.4% 5.9%,$(KVER)))
++  CPU_CFLAG=  -DMODULE -Os -pipe -march=armv8-a -mcpu=cortex-a53+crypto -fno-caller-saves -fno-strict-aliasing -fno-common -Wno-format-security -Wno-pointer-sign -Wno-unused-but-set-variable -Wno-error=unused-result -mcmodel=large
+ endif
+ endif
 --- a/src/sal/sd/linux/uk_interface/sw_api_ks_ioctl.c
 +++ b/src/sal/sd/linux/uk_interface/sw_api_ks_ioctl.c
 @@ -19,6 +19,6 @@
@@ -38,13 +61,6 @@
  			if (!gcc_addr) {
  				SSDK_ERROR("gcc map fail!\n");
  				return 0;
-@@ -3507,5 +3507,5 @@ module_init(regi_init);
- module_exit(regi_exit);
- 
- MODULE_DESCRIPTION("QCA SSDK Driver");
--MODULE_LICENSE("Dual BSD/GPL");
-+// MODULE_LICENSE("Dual BSD/GPL");
- /*qca808x_end*/
 --- a/src/init/ssdk_clk.c
 +++ b/src/init/ssdk_clk.c
 @@ -453,7 +453,7 @@ static void ssdk_cmnblk_init(enum cmnblk_clk_type mode)
