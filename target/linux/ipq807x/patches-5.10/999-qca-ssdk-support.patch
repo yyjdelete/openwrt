@@ -1,0 +1,41 @@
+--- a/include/linux/switch.h
++++ b/include/linux/switch.h
+@@ -45,6 +45,9 @@ struct switch_dev {
+ 	SWITCH_PORT_SPEED_10 = 10,
+ 	SWITCH_PORT_SPEED_100 = 100,
+ 	SWITCH_PORT_SPEED_1000 = 1000,
++	SWITCH_PORT_SPEED_2500 = 2500,
++	SWITCH_PORT_SPEED_5000 = 5000,
++	SWITCH_PORT_SPEED_10000 = 10000
+ };
+ 
+ struct switch_port_link {
+@@ -128,6 +128,7 @@ struct switch_dev {
+ 	struct switch_port *portbuf;
+ 	struct switch_portmap *portmap;
+ 	struct switch_port_link linkbuf;
++	struct switch_ext *ext_val;
+ 
+ 	char buf[128];
+ 
+@@ -136,6 +137,12 @@ struct switch_dev {
+ #endif
+ };
+ 
++struct switch_ext {
++	const char *option_name;
++	const char *option_value;
++	struct switch_ext *next;
++};
++
+ struct switch_port {
+ 	u32 id;
+ 	u32 flags;
+@@ -164,6 +164,7 @@ struct switch_dev {
+ 		u32 i;
+ 		struct switch_port *ports;
+ 		struct switch_port_link *link;
++		struct switch_ext *ext_val;
+ 	} value;
+ };
+ 
