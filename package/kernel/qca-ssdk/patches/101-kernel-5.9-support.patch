@@ -1,0 +1,144 @@
+--- a/src/sal/sd/linux/uk_interface/sw_api_ks_ioctl.c
++++ b/src/sal/sd/linux/uk_interface/sw_api_ks_ioctl.c
+@@ -19,6 +19,6 @@
+ #ifdef KVER26 /*Linux Kernel 2.6 */
+ #define __USER     __user
+ #else /*Linux Kernel 2.4 */
+-#include <asm/uaccess.h>
++#include <linux/uaccess.h>
+ #define __USER
+ #endif /*KVER26 */
+--- a/src/init/ssdk_init.c
++++ b/src/init/ssdk_init.c
+@@ -1088,12 +1088,12 @@ static struct switch_attr qca_ar8327_globals[] = {
+ 		.type = SWITCH_TYPE_STRING,
+ 		.get = qca_ar8327_sw_atu_dump,
+ 	},
+-	{
+-		.name = "switch_ext",
+-		.description = "Switch extended configuration",
+-		.type = SWITCH_TYPE_EXT,
+-		.set = qca_ar8327_sw_switch_ext,
+-	},
++	// {
++	// 	.name = "switch_ext",
++	// 	.description = "Switch extended configuration",
++	// 	.type = SWITCH_TYPE_EXT,
++	// 	.set = qca_ar8327_sw_switch_ext,
++	// },
+ };
+ 
+ static struct switch_attr qca_ar8327_port[] = {
+@@ -2700,7 +2700,7 @@ static int ssdk_dess_mac_mode_init(a_uint32_t dev_id, a_uint32_t mac_mode)
+ 							(a_uint8_t *)&reg_value, 4);
+ 			mdelay(10);
+ 			/*softreset psgmii, fixme*/
+-			gcc_addr = ioremap_nocache(0x1812000, 0x200);
++			gcc_addr = ioremap(0x1812000, 0x200);
+ 			if (!gcc_addr) {
+ 				SSDK_ERROR("gcc map fail!\n");
+ 				return 0;
+@@ -3507,5 +3507,5 @@ module_init(regi_init);
+ module_exit(regi_exit);
+ 
+ MODULE_DESCRIPTION("QCA SSDK Driver");
+-MODULE_LICENSE("Dual BSD/GPL");
++// MODULE_LICENSE("Dual BSD/GPL");
+ /*qca808x_end*/
+--- a/src/init/ssdk_clk.c
++++ b/src/init/ssdk_clk.c
+@@ -453,7 +453,7 @@ static void ssdk_cmnblk_init(enum cmnblk_clk_type mode)
+ 	void __iomem *gcc_pll_base = NULL;
+ 	a_uint32_t reg_val;
+ 
+-	gcc_pll_base = ioremap_nocache(CMN_BLK_ADDR, CMN_BLK_SIZE);
++	gcc_pll_base = ioremap(CMN_BLK_ADDR, CMN_BLK_SIZE);
+ 	if (!gcc_pll_base) {
+ 		SSDK_ERROR("Failed to map gcc pll address!\n");
+ 		return;
+@@ -663,17 +663,17 @@ void __iomem *gcc_gmac_base = NULL;
+ 
+ static void ssdk_mp_reg_base_remap(void)
+ {
+-	gcc_gephy_base = ioremap_nocache(GCC_GEPHY, GCC_GEPHY_SIZE);
++	gcc_gephy_base = ioremap(GCC_GEPHY, GCC_GEPHY_SIZE);
+ 	if (!gcc_gephy_base) {
+ 		SSDK_ERROR("Failed to map gephy address!\n");
+ 		return;
+ 	}
+-	gcc_uniphy_base = ioremap_nocache(GCC_UNIPHY, GCC_UNIPHY_SIZE);
++	gcc_uniphy_base = ioremap(GCC_UNIPHY, GCC_UNIPHY_SIZE);
+ 	if (!gcc_uniphy_base) {
+ 		SSDK_ERROR("Failed to map uniphy address!\n");
+ 		return;
+ 	}
+-	gcc_gmac_base = ioremap_nocache(GCC_GMAC, GCC_GMAC_SIZE);
++	gcc_gmac_base = ioremap(GCC_GMAC, GCC_GMAC_SIZE);
+ 	if (!gcc_gmac_base) {
+ 		SSDK_ERROR("Failed to map gmac address!\n");
+ 		return;
+@@ -686,7 +686,7 @@ static void ssdk_mp_fixed_clock_init(void)
+ 	a_uint32_t reg_val;
+ 
+ 	/* enable AHB and SYS clk of cmn */
+-	reg_addr = ioremap_nocache(GCC_CMN_BLK, GCC_CMN_BLK_SIZE);
++	reg_addr = ioremap(GCC_CMN_BLK, GCC_CMN_BLK_SIZE);
+ 	if (!reg_addr) {
+ 		SSDK_ERROR("Failed to map GCC CMN BLK address!\n");
+ 		return;
+@@ -724,7 +724,7 @@ static void ssdk_mp_cmnblk_enable(void)
+ 	void __iomem *tcsr_eth_ldo_rdy = NULL;
+ 	a_uint32_t reg_val;
+ 
+-	tcsr_eth_ldo_rdy = ioremap_nocache(TCSR_ETH_LDO_RDY_REG,
++	tcsr_eth_ldo_rdy = ioremap(TCSR_ETH_LDO_RDY_REG,
+ 		TCSR_ETH_LDO_RDY_SIZE);
+ 	if (!tcsr_eth_ldo_rdy) {
+ 		SSDK_ERROR("Failed to map tcsr_eth_ldo_rdy address!\n");
+@@ -745,7 +745,7 @@ static a_bool_t ssdk_mp_cmnblk_stable_check(void)
+ 	a_uint32_t reg_val, times = 20;
+ 	a_bool_t is_stable = A_FALSE;
+ 
+-	cmb_pll_locked_reg = ioremap_nocache(CMN_PLL_PLL_LOCKED_REG,
++	cmb_pll_locked_reg = ioremap(CMN_PLL_PLL_LOCKED_REG,
+ 		CMN_PLL_PLL_LOCKED_SIZE);
+ 	if (!cmb_pll_locked_reg) {
+ 		SSDK_ERROR("Failed to map cmb_pll_locked_reg address!\n");
+@@ -1020,7 +1020,7 @@ static void ssdk_mp_gmac_reset(void)
+ 	a_uint32_t reg_val;
+ 	void __iomem *gmac_bcr_reg = NULL;
+ 
+-	gmac_bcr_reg = ioremap_nocache(GCC_GMAC_BCR,
++	gmac_bcr_reg = ioremap(GCC_GMAC_BCR,
+ 		GCC_GMAC_BCR_SIZE);
+ 	reg_val = readl(gmac_bcr_reg+GCC_GMAC0_BCR_OFFSET);
+ 	writel(reg_val | (GCC_GMAC0_BCR_BLK_ARES),
+--- a/src/init/ssdk_plat.c
++++ b/src/init/ssdk_plat.c
+@@ -1296,7 +1296,7 @@ ssdk_plat_init(ssdk_init_cfg *cfg, a_uint32_t dev_id)
+ 	reg_mode = ssdk_uniphy_reg_access_mode_get(dev_id);
+ 	if(reg_mode == HSL_REG_LOCAL_BUS) {
+ 		ssdk_uniphy_reg_map_info_get(dev_id, &map);
+-		qca_phy_priv_global[dev_id]->uniphy_hw_addr = ioremap_nocache(map.base_addr,
++		qca_phy_priv_global[dev_id]->uniphy_hw_addr = ioremap(map.base_addr,
+ 									map.size);
+ 		if (!qca_phy_priv_global[dev_id]->uniphy_hw_addr) {
+ 			SSDK_ERROR("%s ioremap fail.", __func__);
+@@ -1310,7 +1310,7 @@ ssdk_plat_init(ssdk_init_cfg *cfg, a_uint32_t dev_id)
+ 	reg_mode = ssdk_switch_reg_access_mode_get(dev_id);
+ 	if(reg_mode == HSL_REG_LOCAL_BUS) {
+ 		ssdk_switch_reg_map_info_get(dev_id, &map);
+-		qca_phy_priv_global[dev_id]->hw_addr = ioremap_nocache(map.base_addr,
++		qca_phy_priv_global[dev_id]->hw_addr = ioremap(map.base_addr,
+ 								map.size);
+ 		if (!qca_phy_priv_global[dev_id]->hw_addr) {
+ 			SSDK_ERROR("%s ioremap fail.", __func__);
+@@ -1341,7 +1341,7 @@ ssdk_plat_init(ssdk_init_cfg *cfg, a_uint32_t dev_id)
+ 			return -1;
+ 		}
+ 
+-		qca_phy_priv_global[dev_id]->psgmii_hw_addr = ioremap_nocache(map.base_addr,
++		qca_phy_priv_global[dev_id]->psgmii_hw_addr = ioremap(map.base_addr,
+ 								map.size);
+ 		if (!qca_phy_priv_global[dev_id]->psgmii_hw_addr) {
+ 			SSDK_ERROR("%s ioremap fail.", __func__);
