@@ -7,7 +7,7 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=https://source.codeaurora.org/quic/qsdk/oss/lklm/qca-ssdk
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=92db8b868f7173646d45aeffef6acc891dcbd09c
+PKG_SOURCE_VERSION:=73882ba1eeb9be030b2eac3d0594b984e2ce8126
 
 LOCAL_VARIANT=$(patsubst qca-ssdk-%,%,$(patsubst qca-ssdk-%,%,$(BUILD_VARIANT)))
 include $(INCLUDE_DIR)/package.mk
@@ -20,7 +20,7 @@ define KernelPackage/qca-ssdk/default-nohnat
   FILES:=$(PKG_BUILD_DIR)/build/bin/qca-ssdk.ko
   AUTOLOAD:=$(call AutoLoad,30,qca-ssdk)
   PROVIDES:=qca-ssdk
-  DEPENDS:+swconfig
+  DEPENDS:=+kmod-swconfig
 endef
 
 define KernelPackage/qca-ssdk-nohnat
@@ -44,11 +44,13 @@ define KernelPackage/qca-ssdk-hnat/Description
 This package contains a qca-ssdk-hnat driver for QCA chipset
 endef
 
-ifeq ($(CONFIG_TARGET_ipq),y)
-subtarget:=$(SUBTARGET)
-else
-subtarget:=ipq806x
-endif
+# ifeq ($(CONFIG_TARGET_ipq),y)
+# subtarget:=$(SUBTARGET)
+# else
+# subtarget:=ipq806x
+# endif
+
+subtarget:=$(CONFIG_TARGET_BOARD)
 
 ifdef CONFIG_TOOLCHAIN_BIN_PATH
 TOOLCHAIN_BIN_PATH=$(CONFIG_TOOLCHAIN_BIN_PATH)
@@ -63,7 +65,6 @@ MAKE_FLAGS+= TOOL_PATH=$(TOOLCHAIN_BIN_PATH) \
                 ARCH=$(LINUX_KARCH) \
 		TARGET_SUFFIX=$(CONFIG_TARGET_SUFFIX) \
 		GCC_VERSION=$(GCC_VERSION) \
-		SWCONFIG_FEATURE=disable \
 		CFLAGS=-I$(STAGING_DIR)/usr/include
 
 ifdef CONFIG_TARGET_NAME
