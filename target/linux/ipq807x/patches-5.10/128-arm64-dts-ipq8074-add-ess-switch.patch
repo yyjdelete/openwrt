@@ -1,6 +1,6 @@
 --- a/arch/arm64/boot/dts/qcom/ipq8074.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq8074.dtsi
-@@ -310,6 +310,134 @@ mdio: mdio@90000 {
+@@ -310,6 +310,154 @@ mdio: mdio@90000 {
  			status = "disabled";
  		};
  
@@ -130,6 +130,26 @@
 +			compatible = "qcom,ess-uniphy";
 +			reg = <0x7a00000 0x30000>;
 +			uniphy_access_mode = "local bus";
++		};
++
++		edma@3ab00000 {
++				compatible = "qcom,edma";
++				reg = <0x3ab00000 0x76900>;
++				reg-names = "edma-reg-base";
++				qcom,txdesc-ring-start = <23>;
++				qcom,txdesc-rings = <1>;
++				qcom,txcmpl-ring-start = <7>;
++				qcom,txcmpl-rings = <1>;
++				qcom,rxfill-ring-start = <7>;
++				qcom,rxfill-rings = <1>;
++				qcom,rxdesc-ring-start = <15>;
++				qcom,rxdesc-rings = <1>;
++				interrupts = <0 345 4>,
++					<0 353 4>,
++					<0 361 4>,
++					<0 344 4>;
++				resets = <&gcc GCC_EDMA_HW_RESET>;
++				reset-names = "edma_rst";
 +		};
 +
  		prng: qrng@e1000 {
