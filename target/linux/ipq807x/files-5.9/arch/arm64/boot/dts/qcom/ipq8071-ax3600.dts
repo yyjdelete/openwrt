@@ -20,6 +20,14 @@
 		led-failsafe = &led_system_yellow;
 		led-running = &led_system_blue;
 		led-upgrade = &led_system_yellow;
+		/*
+		 * Aliases as required by u-boot
+		 * to patch MAC addresses
+		 */
+		ethernet1 = "/soc/dp2";
+		ethernet2 = "/soc/dp3";
+		ethernet3 = "/soc/dp4";
+		ethernet4 = "/soc/dp5";
 	};
 
 	chosen {
@@ -72,18 +80,7 @@
 };
 
 &soc {
-	dp1 {
-		device_type = "network";
-		compatible = "qcom,nss-dp";
-		qcom,id = <1>;
-		reg = <0x3a001000 0x200>;
-		qcom,mactype = <0>;
-		local-mac-address = [000000000000];
-		qcom,link-poll = <1>;
-		qcom,phy-mdio-addr = <0>;
-		phy-mode = "sgmii";
-	};
-
+	/* eth0 ( wan port ) */
 	dp2 {
 		device_type = "network";
 		compatible = "qcom,nss-dp";
@@ -95,7 +92,7 @@
 		qcom,phy-mdio-addr = <1>;
 		phy-mode = "sgmii";
 	};
-
+	/* eth1 ( wan port ) */
 	dp3 {
 		device_type = "network";
 		compatible = "qcom,nss-dp";
@@ -107,7 +104,7 @@
 		qcom,phy-mdio-addr = <2>;
 		phy-mode = "sgmii";
 	};
-
+	/* eth2 ( wan port ) */
 	dp4 {
 		device_type = "network";
 		compatible = "qcom,nss-dp";
@@ -119,7 +116,7 @@
 		qcom,phy-mdio-addr = <3>;
 		phy-mode = "sgmii";
 	};
-
+	/* eth3 ( wan port ) */
 	dp5 {
 		device_type = "network";
 		compatible = "qcom,nss-dp";
@@ -318,9 +315,8 @@
 	pinctrl-0 = <&mdio_pins>;
 	pinctrl-names = "default";
 
-	phy0: ethernet-phy@0 {
-		reg = <0>;
-	};
+	reset-gpios = <&tlmm 37 GPIO_ACTIVE_LOW>;
+
 	phy1: ethernet-phy@1 {
 		reg = <1>;
 	};
@@ -345,10 +341,6 @@
 	bm_tick_mode = <0>; /* bm tick mode */
 	tm_tick_mode = <0>; /* tm tick mode */
 	qcom,port_phyinfo {
-		port@0 {
-			port_id = <1>;
-			phy_address = <0>;
-		};
 		port@1 {
 			port_id = <2>;
 			phy_address = <1>;
@@ -376,16 +368,6 @@
 			l0edrr = <0 47>;
 			l1cdrr = <0 7>;
 			l1edrr = <0 7>;
-		};
-		port@1 {
-			port_id = <1>;
-			ucast_queue = <144 159>;
-			mcast_queue = <272 275>;
-			l0sp = <36 39>;
-			l0cdrr = <48 63>;
-			l0edrr = <48 63>;
-			l1cdrr = <8 11>;
-			l1edrr = <8 11>;
 		};
 		port@2 {
 			port_id = <2>;
@@ -427,26 +409,6 @@
 			l1cdrr = <24 27>;
 			l1edrr = <24 27>;
 		};
-		port@6 {
-			port_id = <6>;
-			ucast_queue = <224 239>;
-			mcast_queue = <292 295>;
-			l0sp = <56 59>;
-			l0cdrr = <128 143>;
-			l0edrr = <128 143>;
-			l1cdrr = <28 31>;
-			l1edrr = <28 31>;
-		};
-		port@7 {
-			port_id = <7>;
-			ucast_queue = <240 255>;
-			mcast_queue = <296 299>;
-			l0sp = <60 63>;
-			l0cdrr = <144 159>;
-			l0edrr = <144 159>;
-			l1cdrr = <32 35>;
-			l1edrr = <32 35>;
-		};
 	};
 	port_scheduler_config {
 		port@0 {
@@ -481,28 +443,6 @@
 					ucast_queue = <3 7 11>;
 					mcast_queue = <259 263>;
 					cfg = <0 3 3 3 3>;
-				};
-			};
-		};
-		port@1 {
-			port_id = <1>;
-			l1scheduler {
-				group@0 {
-					sp = <36>;
-					cfg = <0 8 0 8>;
-				};
-				group@1 {
-					sp = <37>;
-					cfg = <1 9 1 9>;
-				};
-			};
-			l0scheduler {
-				group@0 {
-					ucast_queue = <144>;
-					ucast_loop_pri = <16>;
-					mcast_queue = <272>;
-					mcast_loop_pri = <4>;
-					cfg = <36 0 48 0 48>;
 				};
 			};
 		};
@@ -591,44 +531,6 @@
 					mcast_queue = <288>;
 					mcast_loop_pri = <4>;
 					cfg = <52 0 112 0 112>;
-				};
-			};
-		};
-		port@6 {
-			port_id = <6>;
-			l1scheduler {
-				group@0 {
-					sp = <56>;
-					cfg = <0 28 0 28>;
-				};
-				group@1 {
-					sp = <57>;
-					cfg = <1 29 1 29>;
-				};
-			};
-			l0scheduler {
-				group@0 {
-					ucast_queue = <224>;
-					ucast_loop_pri = <16>;
-					mcast_queue = <292>;
-					mcast_loop_pri = <4>;
-					cfg = <56 0 128 0 128>;
-				};
-			};
-		};
-		port@7 {
-			port_id = <7>;
-			l1scheduler {
-				group@0 {
-					sp = <60>;
-					cfg = <0 32 0 32>;
-				};
-			};
-			l0scheduler {
-				group@0 {
-					ucast_queue = <240>;
-					mcast_queue = <296>;
-					cfg = <60 0 144 0 144>;
 				};
 			};
 		};
