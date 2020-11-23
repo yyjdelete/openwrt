@@ -276,8 +276,18 @@
 			function = "mdc";
 		};
 
+		pinmux_3 {
+			pins = "gpio25";
+			function = "gpio";
+		};
+
+		pinmux_4 {
+			pins = "gpio44";
+			function = "gpio";
+		};
+
 		pinconf {
-			pins = "gpio69", "gpio68";
+			pins = "gpio25", "gpio44", "gpio69", "gpio68";
 			bias-pull-up;
 		};
 	};
