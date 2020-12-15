@@ -3,7 +3,7 @@ include $(TOPDIR)/rules.mk
 ARCH:=aarch64
 BOARD:=ipq807x
 BOARDNAME:=Qualcomm IPQ807x
-FEATURES:=squashfs ramdisk source-only
+FEATURES:=squashfs fpu ramdisk nand source-only
 KERNELNAME:=Image dtbs
 CPU_TYPE:=cortex-a53
 
