@@ -1,0 +1,72 @@
+From fc0c9f3ae1daae4c0355ec37ea10ca23f18666b4 Mon Sep 17 00:00:00 2001
+From: Robert Marko <robert.marko@sartura.hr>
+Date: Thu, 24 Dec 2020 18:58:56 +0100
+Subject: [PATCH] arm64: dts: ipq8074: add QCA807x PHY nodes
+
+IPQ8074 commonly ships with QCA807x PHYs,
+so lets add the nodes.
+
+Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+---
+ arch/arm64/boot/dts/qcom/ipq8074.dtsi | 43 +++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+
+--- a/arch/arm64/boot/dts/qcom/ipq8074.dtsi
++++ b/arch/arm64/boot/dts/qcom/ipq8074.dtsi
+@@ -6,6 +6,7 @@
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+ #include <dt-bindings/clock/qcom,gcc-ipq8074.h>
+ #include <dt-bindings/clock/qcom,apss-ipq.h>
++#include <dt-bindings/net/qcom-qca807x.h>
+ #include <dt-bindings/spmi/spmi.h>
+ 
+ / {
+@@ -623,6 +624,48 @@
+ 			clocks = <&gcc GCC_MDIO_AHB_CLK>;
+ 			clock-names = "mdio";
+ 			status = "disabled";
++
++			ethphy0: ethernet-phy@0 {
++				compatible = "ethernet-phy-ieee802.3-c22";
++				reg = <0>;
++
++				qcom,control-dac = <QCA807X_CONTROL_DAC_DSP_VOLT_QUARTER_BIAS>;
++			};
++
++			ethphy1: ethernet-phy@1 {
++				compatible = "ethernet-phy-ieee802.3-c22";
++				reg = <1>;
++
++				qcom,control-dac = <QCA807X_CONTROL_DAC_DSP_VOLT_QUARTER_BIAS>;
++			};
++
++			ethphy2: ethernet-phy@2 {
++				compatible = "ethernet-phy-ieee802.3-c22";
++				reg = <2>;
++
++				qcom,control-dac = <QCA807X_CONTROL_DAC_DSP_VOLT_QUARTER_BIAS>;
++			};
++
++			ethphy3: ethernet-phy@3 {
++				compatible = "ethernet-phy-ieee802.3-c22";
++				reg = <3>;
++
++				qcom,control-dac = <QCA807X_CONTROL_DAC_DSP_VOLT_QUARTER_BIAS>;
++			};
++
++			ethphy4: ethernet-phy@4 {
++				compatible = "ethernet-phy-ieee802.3-c22";
++				reg = <4>;
++
++				qcom,control-dac = <QCA807X_CONTROL_DAC_DSP_VOLT_QUARTER_BIAS>;
++			};
++
++			psgmiiphy: psgmii-phy@5 {
++				reg = <5>;
++
++				qcom,tx-driver-strength = <PSGMII_QSGMII_TX_DRIVER_300MV>;
++				qcom,psgmii-az;
++			};
+ 		};
+ 
+ 		prng: qrng@e1000 {
