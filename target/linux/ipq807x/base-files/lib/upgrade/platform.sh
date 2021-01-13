@@ -17,6 +17,7 @@ platform_do_upgrade() {
 
 	case "$board" in
 	xiaomi,ax3600)
+		CI_UBIPART="$(awk -F 'ubi.mtd=' '{printf $2}' /proc/cmdline | sed -e 's/ .*$//')"
 		nand_do_upgrade "$1"
 		;;
 	*)
