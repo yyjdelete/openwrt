@@ -43,7 +43,7 @@ define Device/xiaomi_ax3600
 	DEVICE_DTS_CONFIG := config@ac04
 	SOC := ipq8071
 	UBINIZE_OPTS := -E 5
-	DEVICE_PACKAGES := ipq-wifi-xiaomi_ax3600 ath10k-firmware-qca9887-ct kmod-ath10k-ct
+	DEVICE_PACKAGES := ipq-wifi-xiaomi_ax3600 ath10k-firmware-qca9887-ct kmod-ath10k-ct uboot-envtools
 endef
 TARGET_DEVICES += xiaomi_ax3600
 
