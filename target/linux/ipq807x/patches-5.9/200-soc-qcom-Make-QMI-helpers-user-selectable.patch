@@ -1,0 +1,24 @@
+From f58aa2cfe753c6453a95c3190a7eddcc55a63126 Mon Sep 17 00:00:00 2001
+From: Robert Marko <robert.marko@sartura.hr>
+Date: Sat, 12 Dec 2020 23:04:10 +0100
+Subject: [PATCH] soc: qcom: Make QMI helpers user selectable
+
+This enables us to manually select QMI helpers as ath11k depends
+on them, and backports dont select it like in kernel driver does.
+
+Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+---
+ drivers/soc/qcom/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/soc/qcom/Kconfig
++++ b/drivers/soc/qcom/Kconfig
+@@ -92,7 +92,7 @@ config QCOM_PDR_HELPERS
+ 	select QCOM_QMI_HELPERS
+ 
+ config QCOM_QMI_HELPERS
+-	tristate
++	tristate "Qualcomm QMI Helpers"
+ 	depends on NET
+ 
+ config QCOM_RMTFS_MEM
