@@ -549,4 +549,5 @@
 
 &wifi {
 	status = "okay";
+	qcom,board_id = <0x292>;
 };
