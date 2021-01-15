@@ -1,0 +1,136 @@
+From patchwork Tue Dec 17 16:43:29 2019
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: John Crispin <john@phrozen.org>
+X-Patchwork-Id: 11298233
+Return-Path: 
+ <SRS0=sCZ6=2H=lists.infradead.org=ath11k-bounces+patchwork-ath11k=patchwork.kernel.org@kernel.org>
+Received: from mail.kernel.org (pdx-korg-mail-1.web.codeaurora.org
+ [172.30.200.123])
+	by pdx-korg-patchwork-2.web.codeaurora.org (Postfix) with ESMTP id B2E80138C
+	for <patchwork-ath11k@patchwork.kernel.org>;
+ Tue, 17 Dec 2019 16:43:43 +0000 (UTC)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPS id 90AB021D7D
+	for <patchwork-ath11k@patchwork.kernel.org>;
+ Tue, 17 Dec 2019 16:43:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=lists.infradead.org
+ header.i=@lists.infradead.org header.b="u62YGMLv"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 90AB021D7D
+Authentication-Results: mail.kernel.org;
+ dmarc=none (p=none dis=none) header.from=phrozen.org
+Authentication-Results: mail.kernel.org;
+ spf=none
+ smtp.mailfrom=ath11k-bounces+patchwork-ath11k=patchwork.kernel.org@lists.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=vKUlvcaVjoialfXd/XacAVMw4lMEj5TkW/oX38b2Jds=; b=u62YGMLvEQ6kkD
+	TSw7Vt1oAS2AB/nbG0jgD6y6GL8c+W7+nbmTikIAQK74sFDs2NUPzn1knQ3zXSMO8UFnwOiuAfiGD
+	IwFpN0RDPmJHqxr64yUbomesiuQZmWAZFqzVr5akKPFtKFjil4Vx/l7Rfin3titQLkGc26jK/Xeez
+	H5oIf7S6FdYyuFq+QIk9SdItk8WvcYb9ms/o0APT1LcQV+7qlK1vvplhyNXtBbD0lVOimNzQRajsZ
+	W/4u+PCcjMFr8HFXkziY4f6iPG6aEkh28YGVmArpRyqAjP4tOG/kYzgtps/AIAvbYJnh/SBBDBwtA
+	w8ozS3UkDBFApgpkWRIg==;
+Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1ihFwk-0000Mv-4T; Tue, 17 Dec 2019 16:43:42 +0000
+Received: from nbd.name ([2a01:4f8:221:3d45::2])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1ihFwh-0000M0-K0
+ for ath11k@lists.infradead.org; Tue, 17 Dec 2019 16:43:41 +0000
+Received: from pd95fd66b.dip0.t-ipconnect.de ([217.95.214.107]
+ helo=bertha.fritz.box) by ds12 with esmtpa (Exim 4.89)
+ (envelope-from <john@phrozen.org>)
+ id 1ihFwf-0004wY-J1; Tue, 17 Dec 2019 17:43:37 +0100
+From: John Crispin <john@phrozen.org>
+To: Kalle Valo <kvalo@codeaurora.org>,
+	Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH 2/2] ath11k: load appropriate board data based on board id
+Date: Tue, 17 Dec 2019 17:43:29 +0100
+Message-Id: <20191217164329.4151-2-john@phrozen.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191217164329.4151-1-john@phrozen.org>
+References: <20191217164329.4151-1-john@phrozen.org>
+MIME-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20191217_084339_817353_3EA64EC6 
+X-CRM114-Status: GOOD (  11.79  )
+X-Spam-Score: 0.0 (/)
+X-Spam-Report: SpamAssassin version 3.4.2 on bombadil.infradead.org summary:
+ Content analysis details:   (0.0 points)
+ pts rule name              description
+ ---- ----------------------
+ --------------------------------------------------
+ -0.0 SPF_PASS               SPF: sender matches SPF record
+ 0.0 SPF_HELO_NONE          SPF: HELO does not publish an SPF Record
+X-BeenThere: ath11k@lists.infradead.org
+X-Mailman-Version: 2.1.29
+Precedence: list
+List-Id: <ath11k.lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/ath11k>,
+ <mailto:ath11k-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/ath11k/>
+List-Post: <mailto:ath11k@lists.infradead.org>
+List-Help: <mailto:ath11k-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/ath11k>,
+ <mailto:ath11k-request@lists.infradead.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Venkateswara Naralasetty <vnaralas@codeaurora.org>,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ John Crispin <john@phrozen.org>
+Sender: "ath11k" <ath11k-bounces@lists.infradead.org>
+Errors-To: 
+ ath11k-bounces+patchwork-ath11k=patchwork.kernel.org@lists.infradead.org
+
+From: Venkateswara Naralasetty <vnaralas@codeaurora.org>
+
+This patch add support to read board id from dts and load
+appropriate board data from userland.
+
+Signed-off-by: John Crispin <john@phrozen.org>
+Signed-off-by: Venkateswara Naralasetty <vnaralas@codeaurora.org>
+---
+ drivers/net/wireless/ath/ath11k/qmi.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/wireless/ath/ath11k/qmi.c b/drivers/net/wireless/ath/ath11k/qmi.c
+index 2377895a58ec..e80290c7c9dd 100644
+--- a/drivers/net/wireless/ath/ath11k/qmi.c
++++ b/drivers/net/wireless/ath/ath11k/qmi.c
+@@ -1712,9 +1712,11 @@ static int ath11k_qmi_alloc_target_mem_chunk(struct ath11k_base *ab)
+ 
+ static int ath11k_qmi_request_target_cap(struct ath11k_base *ab)
+ {
++	struct device *dev = ab->dev;
+ 	struct qmi_wlanfw_cap_req_msg_v01 req;
+ 	struct qmi_wlanfw_cap_resp_msg_v01 resp;
+ 	struct qmi_txn txn = {};
++	unsigned int board_id;
+ 	int ret = 0;
+ 
+ 	memset(&req, 0, sizeof(req));
+@@ -1753,10 +1755,14 @@ static int ath11k_qmi_request_target_cap(struct ath11k_base *ab)
+ 		ab->qmi.target.chip_family = resp.chip_info.chip_family;
+ 	}
+ 
+-	if (resp.board_info_valid)
++	if (!of_property_read_u32(dev->of_node, "qcom,board_id", &board_id)) {
++		if (board_id != 0xFF)
++			ab->qmi.target.board_id = board_id;
++	} else if (resp.board_info_valid) {
+ 		ab->qmi.target.board_id = resp.board_info.board_id;
+-	else
++	} else {
+ 		ab->qmi.target.board_id = 0xFF;
++	}
+ 
+ 	if (resp.soc_info_valid)
+ 		ab->qmi.target.soc_id = resp.soc_info.soc_id;
