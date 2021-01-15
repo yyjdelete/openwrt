@@ -43,12 +43,13 @@ ALLWIFIBOARDS:= \
 	luma_wrtq-329acn \
 	mobipromo_cm520-79f \
 	qxwlan_e2600ac \
-	xiaomi_ax3600
+	xiaomi_ax3600 \
+	redmi_ax6
 
 ALLWIFIPACKAGES:=$(foreach BOARD,$(ALLWIFIBOARDS),ipq-wifi-$(BOARD))
 
 define Package/ipq-wifi-default
-  SUBMENU:=ath10k Board-Specific Overrides
+  SUBMENU:=ath10k and ath11k Board-Specific Overrides
   SECTION:=firmware
   CATEGORY:=Firmware
   DEPENDS:=@(TARGET_ipq40xx||TARGET_ipq806x||TARGET_ipq807x)
@@ -56,21 +57,23 @@ define Package/ipq-wifi-default
 endef
 
 define ipq-wifi-install-one-to
-  $(INSTALL_DIR)  $(2)/lib/firmware/ath10k/$(3)/
-  $(INSTALL_DATA) $(1) $(2)/lib/firmware/ath10k/$(3)/board-2.bin
+  $(INSTALL_DIR)  $(2)/lib/firmware/$(3)/
+  $(INSTALL_DATA) $(1) $(2)/lib/firmware/$(3)/board-2.bin
 endef
 
 define ipq-wifi-install-one
   $(if $(filter $(suffix $(1)),.QCA4019 .qca4019),\
-    $(call ipq-wifi-install-one-to,$(1),$(2),QCA4019/hw1.0),\
+    $(call ipq-wifi-install-one-to,$(1),$(2),ath10k/QCA4019/hw1.0),\
   $(if $(filter $(suffix $(1)),.QCA9888 .qca9888),\
-    $(call ipq-wifi-install-one-to,$(1),$(2),QCA9888/hw2.0),\
+    $(call ipq-wifi-install-one-to,$(1),$(2),ath10k/QCA9888/hw2.0),\
   $(if $(filter $(suffix $(1)),.QCA9984 .qca9984),\
-    $(call ipq-wifi-install-one-to,$(1),$(2),QCA9984/hw1.0),\
+    $(call ipq-wifi-install-one-to,$(1),$(2),ath10k/QCA9984/hw1.0),\
   $(if $(filter $(suffix $(1)),.QCA9889 .qca9889),\
-    $(call ipq-wifi-install-one-to,$(1),$(2),QCA9887/hw1.0),\
+    $(call ipq-wifi-install-one-to,$(1),$(2),ath10k/QCA9887/hw1.0),\
+  $(if $(filter $(suffix $(1)),.IPQ8074 .ipq8074),\
+    $(call ipq-wifi-install-one-to,$(1),$(2),ath11k/IPQ8074/hw2.0),\
     $(error Unrecognized board-file suffix '$(suffix $(1))' for '$(1)')\
-  ))))
+  )))))
 
 endef
 # Blank line required at end of above define due to foreach context
@@ -125,5 +128,6 @@ $(eval $(call generate-ipq-wifi-package,luma_wrtq-329acn,Luma WRTQ-329ACN))
 $(eval $(call generate-ipq-wifi-package,mobipromo_cm520-79f,MobiPromo CM520-79F))
 $(eval $(call generate-ipq-wifi-package,qxwlan_e2600ac,Qxwlan E2600AC))
 $(eval $(call generate-ipq-wifi-package,xiaomi_ax3600,Xiaomi AX3600))
+$(eval $(call generate-ipq-wifi-package,redmi_ax6,Redmi AX6))
 
 $(foreach PACKAGE,$(ALLWIFIPACKAGES),$(eval $(call BuildPackage,$(PACKAGE))))
