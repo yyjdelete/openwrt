@@ -31,7 +31,8 @@ ubootenv_mtdinfo () {
 }
 
 case "$board" in
-xiaomi,ax3600)
+xiaomi,ax3600 |\
+redmi,ax6)
 	ubootenv_add_uci_config "/dev/mtd6" "0x0" "0x10000" "0x20000"
 	;;
 esac

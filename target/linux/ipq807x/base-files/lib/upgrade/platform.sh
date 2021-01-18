@@ -16,7 +16,8 @@ platform_do_upgrade() {
 	local board=$(board_name)
 
 	case "$board" in
-	xiaomi,ax3600)
+	xiaomi,ax3600 |\
+	redmi,ax6)
 		CI_UBIPART="$(awk -F 'ubi.mtd=' '{printf $2}' /proc/cmdline | sed -e 's/ .*$//')"
 		if [ "$CI_UBIPART" = "" ]; then
 			if [ "$(fw_printenv -n flag_boot_rootfs 2>/dev/null)" = "1" ]; then
