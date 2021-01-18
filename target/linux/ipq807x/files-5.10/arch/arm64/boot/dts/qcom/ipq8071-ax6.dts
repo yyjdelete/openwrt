@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/* Copyright (c) 2020, Robert Marko <robert.marko@sartura.hr> */
+
+#include "ipq8071-ax3600.dts"
+
+/ {
+	model = "Redmi AX6";
+	compatible = "redmi,ax6", "qcom,ipq8074";
+
+	leds {
+		led_system_blue: system-blue {
+			label = "blue:system";
+			gpios = <&tlmm 21 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_system_yellow: system-yellow {
+			label = "yellow:system";
+			gpios = <&tlmm 22 GPIO_ACTIVE_HIGH>;
+		};
+
+		internet-yellow {
+			label = "yellow:internet";
+			gpios = <&tlmm 43 GPIO_ACTIVE_HIGH>;
+		};
+
+		internet-blue {
+			label = "blue:internet";
+			gpios = <&tlmm 42 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&qmp_pcie_phy0 {
+	status = "disabled";
+};
+
+&pcie0 {
+	status = "disabled";
+};

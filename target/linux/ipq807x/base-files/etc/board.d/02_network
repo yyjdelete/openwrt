@@ -12,7 +12,8 @@ board_config_update
 board=$(board_name)
 
 case "$board" in
-xiaomi,ax3600)
+xiaomi,ax3600 |\
+redmi,ax6)
 	ucidef_set_interfaces_lan_wan "eth1 eth2 eth3" "eth0"
 	;;
 *)

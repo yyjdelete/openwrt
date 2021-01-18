@@ -9,7 +9,8 @@ board=$(board_name)
 case "$FIRMWARE" in
 "ath11k/IPQ8074/hw2.0/caldata.bin")
 	case "$board" in
-	xiaomi,ax3600)
+	xiaomi,ax3600 |\
+	redmi,ax6)
 		caldata_extract "0:ART" 0x1000 0x20000
 		;;
 	esac
